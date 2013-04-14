@@ -18,7 +18,7 @@ public interface Instrument {
 
     public String getName();
 
-    public void play(Note noteToPlay);
+    public void play(List<Note> notesToPlay);
 
 
     // At some point might need to play a note

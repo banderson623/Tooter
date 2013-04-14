@@ -3,6 +3,9 @@ package Testing;
 import instruments.Instrument;
 import instruments.Piano;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * User: brian_anderson
  * Date: 4/13/13
@@ -14,9 +17,11 @@ public class BasicAudioTest {
     public static void main(String[] args){
         System.out.println("Hello!");
         Instrument piano = new Piano();
-        piano.play(piano.getSupportedNotes().get(0));
-        piano.play(piano.getSupportedNotes().get(1));
-        piano.play(piano.getSupportedNotes().get(2));
-        piano.play(piano.getSupportedNotes().get(3));
+        List<Instrument.Note> notes = new ArrayList<Instrument.Note>();
+        notes.add(piano.getSupportedNotes().get(0));
+        notes.add(piano.getSupportedNotes().get(1));
+        notes.add(piano.getSupportedNotes().get(2));
+        notes.add(piano.getSupportedNotes().get(3));
+        piano.play(notes);
     }
 }
