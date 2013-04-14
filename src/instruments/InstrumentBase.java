@@ -12,10 +12,10 @@ public abstract class InstrumentBase implements Instrument{
 //        Player player = Manager.createPlayer(new MediaLocator(getClass().getClassLoader().getResource("Sounds/" + filePath)));
 
     }
-
-
     @Override
-    public void play(Note noteToPlay){
-        playSoundFileFromPath(noteToPlay.getFileForNote());
+    public void play(Note noteToPlay) {
+        playSoundFileFromPath(noteToPlay.getFileName());
     }
+
+
 }
