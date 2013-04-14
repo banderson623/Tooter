@@ -83,4 +83,13 @@ public abstract class InstrumentBase implements Instrument{
         return autoNotes;
     }
 
+    @Override
+    public void play(List<Note> notesToPlay)
+    {
+        for(Note note : notesToPlay){
+            play(note);
+        }
+    }
+
+
 }

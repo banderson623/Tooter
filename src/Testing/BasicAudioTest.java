@@ -25,14 +25,8 @@ public class BasicAudioTest {
 
         Random r = new Random();
 
-<<<<<<< HEAD
-        for(int i = 0; i < 50; i++){
-            Thread.sleep(100 * r.nextInt(5));
-=======
         for(int i = 0; i < 10; i++) {
             Thread.sleep(200 * r.nextInt(5));
->>>>>>> origin/master
-            piano.play(piano.getSupportedNotes().get(r.nextInt(4)));
             piano.play(drums.getSupportedNotes().get(r.nextInt(drums.getSupportedNotes().size())));
 
 
