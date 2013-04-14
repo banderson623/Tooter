@@ -11,7 +11,16 @@ import java.util.List;
 public interface Instrument {
 
     public interface Note {
+        /**
+         * Get the name of the note (for UI?)
+         * @return a string name
+         */
         public String getName();
+
+        /**
+         * Define the file for this note that we will play
+         * @return a string path
+         */
         public String getFileForNote();
     }
 
