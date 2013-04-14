@@ -18,6 +18,10 @@ public class Piano extends InstrumentBase {
         {
             return "A";
         }
+
+        public String getFileForNote(){
+            return "soundA.wav";
+        }
     }
 
     public class NoteB implements Note {
@@ -26,6 +30,10 @@ public class Piano extends InstrumentBase {
         public String getName()
         {
             return "B";
+        }
+
+        public String getFileForNote(){
+            return "soundB.wav";
         }
     }
 
