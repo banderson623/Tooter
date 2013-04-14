@@ -23,7 +23,7 @@ public class BasicAudioTest {
 
         Random r = new Random();
 
-        for(int i = 0; i < 10; i++){
+        for(int i = 0; i < 10; i++) {
             Thread.sleep(200 * r.nextInt(5));
             piano.play(piano.getSupportedNotes().get(r.nextInt(4)));
 

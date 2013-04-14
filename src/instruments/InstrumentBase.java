@@ -31,6 +31,11 @@ public abstract class InstrumentBase implements Instrument{
 
 
     @Override
+    public void play(Note noteToPlay) {
+        playSoundFileFromPath(noteToPlay.getFileName());
+    }
+
+    @Override
     public void play(List<Note> notesToPlay) {
         for(Note note : notesToPlay) {
             playSoundFileFromPath(note.getFileName());
