@@ -52,7 +52,6 @@ public abstract class InstrumentBase implements Instrument{
         for(File file : files){
             final String name = file.getName();
             final String path = directory + "/" + file.getName();
-            System.out.println("Adding name:" + name + " and path:" + path);
             Note auto = new Note()
             {
                 @Override

@@ -1,9 +1,8 @@
 package Testing;
 
-import instruments.DrumMachine;
-import instruments.Instrument;
-import instruments.Piano;
+import instruments.*;
 
+import java.util.LinkedList;
 import java.util.Random;
 
 /**
@@ -18,19 +17,30 @@ public class BasicAudioTest {
     {
         System.out.println("Hello!");
         Instrument piano = new Piano();
-        piano.play(piano.getSupportedNotes().get(0));
+//        piano.play(piano.getSupportedNotes().get(0));
 //        Thread.sleep(1000);
 //        piano.play(piano.getSupportedNotes().get(1));
-        Instrument drums = new DrumMachine();
+        LinkedList<Instrument.Note> orchesta = new LinkedList<Instrument.Note>();
 
+//        orchesta.addAll((new Gameboy()).getSupportedNotes());
+//        orchesta.addAll((new DrumMachine()).getSupportedNotes());
+        orchesta.addAll((new Piano()).getSupportedNotes());
+        orchesta.addAll((new Guitar()).getSupportedNotes());
+//        orchesta.addAll((new Brian()).getSupportedNotes());
+//        orchesta.addAll((new Kmart()).getSupportedNotes());
         Random r = new Random();
 
-        for(int i = 0; i < 10; i++) {
-            Thread.sleep(200 * r.nextInt(5));
-            piano.play(drums.getSupportedNotes().get(r.nextInt(drums.getSupportedNotes().size())));
+//        for(int i = 0; i < soundKit.getSupportedNotes().size(); i++) {
+//            Thread.sleep(500);
+//            piano.play(soundKit.getSupportedNotes().get(i));
+//        }
 
-
+        for(int i = 0; i < 50; i++) {
+            Thread.sleep(200 * r.nextInt(4));
+            piano.play(orchesta.get(r.nextInt(orchesta.size())));
         }
+
+
         Thread.sleep(3000);
     }
 }

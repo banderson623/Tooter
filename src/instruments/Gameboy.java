@@ -2,21 +2,20 @@ package instruments;
 
 /**
  * User: brian_anderson
- * Date: 4/13/13
+ * Date: 4/14/13
  * <p/>
  * Add some readme here about how this operates
  */
-public class Piano extends InstrumentBase {
+public class Gameboy extends InstrumentBase {
 
-    public Piano(){
-        addNotesFromWaveFilesInDirectory("piano");
+    public Gameboy(){
+        addNotesFromWaveFilesInDirectory("gameboy");
     }
+
 
     @Override
     public String getName()
     {
-        return "Baby Grand Piano";
+        return "8Bit4Life";
     }
-
-
 }
