@@ -4,6 +4,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import java.io.File;
+import java.util.List;
 
 /**
  * User: brian_anderson
@@ -30,7 +31,14 @@ public abstract class InstrumentBase implements Instrument{
 
 
     @Override
-    public void play(Note noteToPlay){
+    public void play(Note noteToPlay) {
         playSoundFileFromPath(noteToPlay.getFileName());
+    }
+
+    @Override
+    public void play(List<Note> notesToPlay) {
+        for(Note note : notesToPlay) {
+            playSoundFileFromPath(note.getFileName());
+        }
     }
 }
