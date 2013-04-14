@@ -21,7 +21,7 @@ public class Piano extends InstrumentBase {
 
         @Override
         public String getFileName(){
-            return "playA.wav";
+            return "piano/a.wav";
         }
 
     }
@@ -36,16 +36,44 @@ public class Piano extends InstrumentBase {
 
         @Override
         public String getFileName(){
-            return "playA.wav";
+            return "piano/b.wav";
+        }
+    }
+
+    public class NoteC implements Note {
+
+        @Override
+        public String name()
+        {
+            return "C";
+        }
+
+        @Override
+        public String getFileName(){
+            return "piano/c.wav";
+        }
+    }
+
+    public class NoteD implements Note {
+
+        @Override
+        public String name()
+        {
+            return "D";
+        }
+
+        @Override
+        public String getFileName(){
+            return "piano/d.wav";
         }
     }
 
 
-    @Override
-    public void play(Note noteToPlay)
-    {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
+//    @Override
+//    public void play(Note noteToPlay)
+//    {
+//        //To change body of implemented methods use File | Settings | File Templates.
+//    }
 
     @Override
     public String getName()
@@ -59,6 +87,9 @@ public class Piano extends InstrumentBase {
         List<Note> myNotes = new LinkedList<Note>();
         myNotes.add(new NoteA());
         myNotes.add(new NoteB());
+        myNotes.add(new NoteC());
+        myNotes.add(new NoteD());
+
         return myNotes;
     }
 }
