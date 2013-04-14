@@ -1,5 +1,6 @@
 package Testing;
 
+import instruments.DrumMachine;
 import instruments.Instrument;
 import instruments.Piano;
 
@@ -18,21 +19,19 @@ public class BasicAudioTest {
         System.out.println("Hello!");
         Instrument piano = new Piano();
         piano.play(piano.getSupportedNotes().get(0));
-        Thread.sleep(1000);
-        piano.play(piano.getSupportedNotes().get(1));
+//        Thread.sleep(1000);
+//        piano.play(piano.getSupportedNotes().get(1));
+        Instrument drums = new DrumMachine();
 
         Random r = new Random();
 
-        for(int i = 0; i < 10; i++){
-            Thread.sleep(200 * r.nextInt(5));
+        for(int i = 0; i < 50; i++){
+            Thread.sleep(100 * r.nextInt(5));
             piano.play(piano.getSupportedNotes().get(r.nextInt(4)));
+            piano.play(drums.getSupportedNotes().get(r.nextInt(drums.getSupportedNotes().size())));
+
 
         }
         Thread.sleep(3000);
-
-
-//        piano.play(piano.getSupportedNotes().get(1));
-//        piano.play(piano.getSupportedNotes().get(2));
-//        piano.play(piano.getSupportedNotes().get(3));
     }
 }

@@ -12,7 +12,6 @@ public interface Instrument {
 
     public interface Note {
         public String name();
-
         public String getFileName();
     }
 
