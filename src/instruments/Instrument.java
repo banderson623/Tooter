@@ -12,8 +12,11 @@ public interface Instrument {
 
     public interface Note {
         public String name();
+
+        public String getFileName();
     }
 
+    public String getName();
 
     public void play(Note noteToPlay);
 

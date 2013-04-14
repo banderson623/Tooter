@@ -14,18 +14,29 @@ public class Piano extends InstrumentBase {
     public class NoteA implements Note {
 
         @Override
-        public String getName()
+        public String name()
         {
             return "A";
         }
+
+        @Override
+        public String getFileName(){
+            return "playA.wav";
+        }
+
     }
 
     public class NoteB implements Note {
 
         @Override
-        public String getName()
+        public String name()
         {
             return "B";
+        }
+
+        @Override
+        public String getFileName(){
+            return "playA.wav";
         }
     }
 
