@@ -1,8 +1,22 @@
 This file was created by IntelliJ IDEA 12.0.4 for binding GitHub repository
 
-Audio Files from:
+  Audio Files from:
++-------------------------------------------------------------------
  - http://ibeat.org/piano-chords-free/
  - https://ccrma.stanford.edu/~jos/pasp/Sound_Examples.html
  - http://www.soundsnap.com/tags/e_note
  - http://www.futureproducers.com/forums/production-techniques/sampling-digging/free-vintage-drum-machine-wav-files-193483/
  - http://archive.org/details/GuitarChord-A
+
+
+  Instructions to add in zeroMQ and DigitalXyncing
++---------------------------------------------------------------------
+1. Right Click on the top level "Tooter" in the Project
+2. Select "Open Module Settings"
+3. Select "Libraries" in the left hand list
+4. Click the "+"
+5. Select the lib directory in our project and add "DigitalXyncing.jar"
+4. Click the "+"
+5. Select the lib directory in our project and add "zmq.jar"
+6. ???
+7. Profit!
