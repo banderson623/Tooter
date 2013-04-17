@@ -19,11 +19,20 @@ public class Song {
         firstTootTime = 0L;
     }
 
-    public synchronized void addNote(Instrument.Note oneSingleLonelyNote){
+    public synchronized void start(){
         if(firstTootTime == 0){
             firstTootTime = System.currentTimeMillis();
         }
+    }
 
+    /**
+     * Not synchronized...
+     * ... this does not change or access state of the object
+     * ... we want the time it was played to be saved, then added to the toots
+     * ... in a blocking way, but save the time entered still
+     * @param oneSingleLonelyNote
+     */
+    public void addNote(Instrument.Note oneSingleLonelyNote){
         long relativeTimeInMilliseconds = System.currentTimeMillis() - firstTootTime;
         addToTootOrMakeANewOneForTime(relativeTimeInMilliseconds, oneSingleLonelyNote);
     }
@@ -40,7 +49,7 @@ public class Song {
     }
 
 
-    private void addToTootOrMakeANewOneForTime(long timeInMilliseconds, Instrument.Note someNote){
+    private synchronized void addToTootOrMakeANewOneForTime(long timeInMilliseconds, Instrument.Note someNote){
         if(toots.containsKey(timeInMilliseconds)){
             toots.get(timeInMilliseconds).add(someNote);
         } else {
