@@ -2,6 +2,7 @@ package Testing;
 
 import instruments.Guitar;
 import instruments.Instrument;
+import instruments.Kmart;
 import instruments.Piano;
 import util.LibraryUtils;
 
@@ -33,7 +34,7 @@ public class BasicAudioTest {
         orchesta.addAll((new Piano()).getSupportedNotes());
         orchesta.addAll((new Guitar()).getSupportedNotes());
 //        orchesta.addAll((new Brian()).getSupportedNotes());
-//        orchesta.addAll((new Kmart()).getSupportedNotes());
+        orchesta.addAll((new Kmart()).getSupportedNotes());
         Random r = new Random();
 
 //        for(int i = 0; i < soundKit.getSupportedNotes().size(); i++) {
