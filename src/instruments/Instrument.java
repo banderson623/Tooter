@@ -11,6 +11,11 @@ import java.util.List;
 public interface Instrument {
 
     public interface Note {
+        /**
+         * A unique id for this note.
+         * @return
+         */
+        public String id();
         public String name();
         public String getFileName();
     }

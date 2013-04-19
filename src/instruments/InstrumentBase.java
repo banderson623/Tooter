@@ -29,7 +29,7 @@ public abstract class InstrumentBase implements Instrument{
         // TODO: do the work of playing the sound file...
         try {
             File soundFile = new File(getPathToSoundKits() + filePath);
-            System.out.println("sound file " + getPathToSoundKits()  + filePath);  // check the URL!
+//            System.out.println("sound file " + getPathToSoundKits()  + filePath);  // check the URL!
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundFile);
             Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);
@@ -54,6 +54,13 @@ public abstract class InstrumentBase implements Instrument{
             final String path = directory + "/" + file.getName();
             Note auto = new Note()
             {
+
+                @Override
+                public String id()
+                {
+                    return getFileName();
+                }
+
                 @Override
                 public String name()
                 {
@@ -65,6 +72,11 @@ public abstract class InstrumentBase implements Instrument{
                 {
                     return path;
                 }
+
+
+                public String toString(){
+                    return name;
+                }
             };
             autoNotes.add(auto);
         }
@@ -73,7 +85,10 @@ public abstract class InstrumentBase implements Instrument{
 
     @Override
     public void play(Note noteToPlay){
-        playSoundFileFromPath(noteToPlay.getFileName());
+// Uncomment if you want it only to play it's own note
+//        if(autoNotes.contains(noteToPlay)){
+            playSoundFileFromPath(noteToPlay.getFileName());
+//        }
     }
 
     @Override

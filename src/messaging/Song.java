@@ -1,21 +1,22 @@
 package messaging;
 
+import com.sun.deploy.util.OrderedHashSet;
 import instruments.Instrument;
+import sun.tools.java.ScannerInputReader;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 /**
  * This must be thread safe.
  */
-public class Song {
+public class Song{
     // Represent notes over time, first parameter will be time (milliseconds)
-    private HashMap<Long,Toot> toots;
+    private LinkedList<Toot> toots;
     Long firstTootTime;
 
     public Song(){
-        toots = new HashMap<Long, Toot>();
+        toots = new LinkedList<Toot>();
         firstTootTime = 0L;
     }
 
@@ -42,23 +43,81 @@ public class Song {
      */
     public void play(){
         synchronized(this) {
-            final HashMap<Long,Toot> myToots = new HashMap<Long,Toot>(toots);
+            // Copy this locally.
+            final List<Toot> myToots = new LinkedList<Toot>(toots);
         }
 
 //        Executors.newScheduledThreadPool(1,)
     }
 
+    public synchronized String toString(){
+        String toReturn = "";
+        for(Toot toot : toots){
+            toReturn += toot.toString() + "\n";
+        }
+        return toReturn;
+    }
 
-    private synchronized void addToTootOrMakeANewOneForTime(long timeInMilliseconds, Instrument.Note someNote){
-        if(toots.containsKey(timeInMilliseconds)){
-            toots.get(timeInMilliseconds).add(someNote);
-        } else {
-            Toot t = new Toot();
-            t.add(someNote);
-            toots.put(timeInMilliseconds,t);
+    private void addToTootOrMakeANewOneForTime(long timeInMilliseconds, Instrument.Note someNote){
+        Toot t = new Toot();
+        t.add(someNote);
+        t.setTime(timeInMilliseconds);
+        synchronized(this){ //lock to add note (object state)
+            toots.add(t);
         }
     }
 
+
+    /**
+     * Support for Serialization! ------------------------------------------
+     */
+
+    public byte[] toByteArray() throws IOException
+    {
+        System.out.println("Serializing to: \n" + toSerializedString());
+        char[] chars = toSerializedString().toCharArray();
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        for(char c : chars){
+            bytes.write(c);
+        }
+        return bytes.toByteArray();
+    }
+
+    /**
+     * The writeObject method is responsible for writing the state of the object for its particular class
+     * @return String - our serialized object
+     * @throws IOException
+     */
+    public String toSerializedString()
+    {
+//        String out = "";
+        StringBuffer out = new StringBuffer();
+        List<Toot> myToots;
+        synchronized(this) {
+            myToots = new LinkedList<Toot>(toots);
+        }
+        for(Toot t : myToots){
+            out.append("*");
+            out.append(t.getTime());
+            for(Instrument.Note n : t.getNotes()){
+                out.append('|');
+                out.append(n.id());
+            }
+        }
+        return out.toString();
+    }
+
+    public void intializeFromSerializedString(String inputString)
+    {
+        Scanner sc = new Scanner(inputString);
+        while(sc.hasNext()){
+
+        }
+    }
+
+    private void readObjectNoData() throws ObjectStreamException {
+
+    }
 
 
 
@@ -66,7 +125,8 @@ public class Song {
      * This is an event in a song ... that happens at a specific time
      */
     private class Toot {
-        List sounds;
+        private List sounds;
+        private Long time;
 
         public Toot(){
             sounds = new LinkedList<Instrument.Note>();
@@ -78,6 +138,18 @@ public class Song {
 
         public List<Instrument.Note> getNotes(){
             return sounds;
+        }
+
+        public void setTime(Long t){
+            time = t;
+        }
+
+        public Long getTime(){
+            return time;
+        }
+
+        public String toString(){
+            return time.toString() + ":\t" + sounds.toString();
         }
     }
 }
