@@ -1,11 +1,13 @@
 package messaging;
 
-import com.sun.deploy.util.OrderedHashSet;
 import instruments.Instrument;
-import sun.tools.java.ScannerInputReader;
 
-import java.io.*;
-import java.util.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectStreamException;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Scanner;
 
 /**
  * This must be thread safe.
@@ -48,6 +50,11 @@ public class Song{
         }
 
 //        Executors.newScheduledThreadPool(1,)
+    }
+
+    public synchronized boolean update(byte[] serializedToot) {
+        // TODO
+        return false;
     }
 
     public synchronized String toString(){
@@ -124,7 +131,7 @@ public class Song{
     /**
      * This is an event in a song ... that happens at a specific time
      */
-    private class Toot {
+    public class Toot {
         private List sounds;
         private Long time;
 
@@ -150,6 +157,11 @@ public class Song{
 
         public String toString(){
             return time.toString() + ":\t" + sounds.toString();
+        }
+
+        public byte[] toByteArray() {
+            // TODO
+            return null;
         }
     }
 }
