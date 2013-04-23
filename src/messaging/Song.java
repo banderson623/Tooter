@@ -131,7 +131,7 @@ public class Song{
     /**
      * This is an event in a song ... that happens at a specific time
      */
-    public class Toot {
+    public static class Toot {
         private List sounds;
         private Long time;
 
