@@ -29,4 +29,6 @@ public interface Instrument {
     // At some point might need to play a note
     public List<Note> getSupportedNotes();
 
+    public Note getNoteByName(String name);
+
 }

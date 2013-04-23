@@ -26,8 +26,14 @@ public class SongController {
     public SongController(boolean isHost, String hostAddress, int hostPort) {
         this.isHost = isHost;
         this.piano = new Piano();
-        this.endpoint = isHost ? new ZmqHostEndpoint<Song>(HOST_PORT, new SongMessageHandlerFactory()) :
-                new ZmqClientEndpoint<Song>(hostAddress, hostPort, CLIENT_PORT, new SongMessageHandlerFactory());
+        Song song = new Song();
+        try {
+            this.songDocument = new SongDocument(song);
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        this.endpoint = isHost ? new ZmqHostEndpoint<Song>(HOST_PORT, new SongMessageHandlerFactory(songDocument)) :
+                new ZmqClientEndpoint<Song>(hostAddress, hostPort, CLIENT_PORT, new SongMessageHandlerFactory(songDocument));
         this.endpoint.openOutboundChannel();
         this.endpoint.openInboundChannel();
         try {
@@ -36,21 +42,20 @@ public class SongController {
             } else {
                 System.out.println("Connected to " + hostAddress + ":" + hostPort);
             }
-            Song song = new Song();
             song.start();
-            this.songDocument = new SongDocument(song);
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
     }
 
     public void play(Instrument.Note note) {
-        Song.Toot toot = new Song.Toot();
-        toot.add(note);
-        SongFragment fragment = new SongFragment(toot);
+        System.out.println(note.name());
+        SongFragment fragment = new SongFragment(note);
         piano.play(note);
         songDocument.update(fragment);
 
+        // Propagate the change
+        endpoint.send(fragment);
     }
 
     public void terminate() {

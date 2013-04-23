@@ -5,8 +5,16 @@ import com.digitalxyncing.communication.MessageHandler;
 import com.digitalxyncing.communication.MessageHandlerFactory;
 
 public class SongMessageHandlerFactory implements MessageHandlerFactory<Song> {
+
+    private SongDocument songDocument;
+
+    public SongMessageHandlerFactory(SongDocument songDocument) {
+        this.songDocument = songDocument;
+    }
+
     @Override
     public MessageHandler build(Endpoint<Song> endpoint, byte[] bytes) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return new SongMessageHandler(songDocument, endpoint, bytes);
     }
+
 }

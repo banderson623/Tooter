@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 public class Piano extends JPanel {
 
     private SongController songController;
+    private instruments.Piano piano;
 
     public Piano(final CardLayout cl, final JPanel panelCont, boolean isHost) {
         JPanel pianoChoice = new JPanel();
@@ -39,8 +40,7 @@ public class Piano extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                // TODO Auto-generated method stub
-
+                songController.play(piano.getNoteByName("a"));
             }
 
         });
@@ -50,8 +50,7 @@ public class Piano extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                // TODO Auto-generated method stub
-
+                songController.play(piano.getNoteByName("b"));
             }
 
         });
@@ -61,8 +60,7 @@ public class Piano extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                // TODO Auto-generated method stub
-
+                songController.play(piano.getNoteByName("c"));
             }
 
         });
@@ -72,8 +70,7 @@ public class Piano extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                // TODO Auto-generated method stub
-
+                songController.play(piano.getNoteByName("d"));
             }
 
         });
@@ -83,8 +80,7 @@ public class Piano extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                // TODO Auto-generated method stub
-
+                songController.play(piano.getNoteByName("e"));
             }
 
         });
@@ -94,8 +90,7 @@ public class Piano extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                // TODO Auto-generated method stub
-
+                songController.play(piano.getNoteByName("f"));
             }
 
         });
@@ -105,8 +100,7 @@ public class Piano extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                // TODO Auto-generated method stub
-
+                songController.play(piano.getNoteByName("g"));
             }
 
         });
@@ -143,6 +137,7 @@ public class Piano extends JPanel {
         this.add(pianoChoice);
 
         this.songController = new SongController(isHost, null, 0);
+        this.piano = new instruments.Piano();
     }
 
     public void paintComponent(Graphics g) {

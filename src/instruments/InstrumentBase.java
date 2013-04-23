@@ -50,7 +50,8 @@ public abstract class InstrumentBase implements Instrument{
         });
 
         for(File file : files){
-            final String name = file.getName();
+            String fileName = file.getName();
+            final String name = fileName.substring(0, fileName.indexOf("."));
             final String path = directory + "/" + file.getName();
             Note auto = new Note()
             {
@@ -95,6 +96,19 @@ public abstract class InstrumentBase implements Instrument{
     public List<Note> getSupportedNotes()
     {
         return autoNotes;
+    }
+
+    @Override
+    public Note getNoteByName(String name)
+    {
+        for (Note note : getSupportedNotes())
+        {
+            if (note.name().equals(name))
+            {
+                return note;
+            }
+        }
+        return null;
     }
 
     @Override

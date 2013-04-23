@@ -52,11 +52,6 @@ public class Song{
 //        Executors.newScheduledThreadPool(1,)
     }
 
-    public synchronized boolean update(byte[] serializedToot) {
-        // TODO
-        return false;
-    }
-
     public synchronized String toString(){
         String toReturn = "";
         for(Toot toot : toots){
@@ -132,7 +127,7 @@ public class Song{
      * This is an event in a song ... that happens at a specific time
      */
     public static class Toot {
-        private List sounds;
+        private List<Instrument.Note> sounds;
         private Long time;
 
         public Toot(){
@@ -160,8 +155,17 @@ public class Song{
         }
 
         public byte[] toByteArray() {
-            // TODO
-            return null;
+            StringBuilder sb = new StringBuilder();
+            sb.append(time);
+            for (Instrument.Note note : sounds) {
+                sb.append('|').append(note.id());
+            }
+            char[] chars = sb.toString().toCharArray();
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            for (char c : chars){
+                bytes.write(c);
+            }
+            return bytes.toByteArray();
         }
     }
 }

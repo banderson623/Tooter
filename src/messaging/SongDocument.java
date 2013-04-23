@@ -15,22 +15,13 @@ public class SongDocument extends Document<Song> {
     }
 
     @Override
-    protected byte[] serialize(Song song) {
-        try {
-            return song.toByteArray();
-        } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            return null;
-        }
-    }
-
-    @Override
     public boolean update(DocumentFragment<Song> songDocumentFragment) {
-        return song.update(songDocumentFragment.getPrefixedByteArray());
+        song.addNote(((SongFragment)songDocumentFragment).getNote());
+        return true;
     }
 
     @Override
     public Song getFullState() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return song;
     }
 }
