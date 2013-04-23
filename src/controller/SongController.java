@@ -11,20 +11,31 @@ import messaging.SongFragment;
 import messaging.SongMessageHandlerFactory;
 
 import java.io.IOException;
+import java.net.InetAddress;
 
 public class SongController {
+
+    private static final int HOST_PORT = 5050;
+    private static final int CLIENT_PORT = 4040;
 
     private SongDocument songDocument;
     private Piano piano;
     private boolean isHost;
     private Endpoint<Song> endpoint;
 
-    public SongController(boolean isHost) {
+    public SongController(boolean isHost, String hostAddress, int hostPort) {
         this.isHost = isHost;
         this.piano = new Piano();
-        this.endpoint = isHost ? new ZmqHostEndpoint<Song>(5050, new SongMessageHandlerFactory()) :
-                new ZmqClientEndpoint<Song>("127.0.0.1", 5050, 4040, new SongMessageHandlerFactory());
+        this.endpoint = isHost ? new ZmqHostEndpoint<Song>(HOST_PORT, new SongMessageHandlerFactory()) :
+                new ZmqClientEndpoint<Song>(hostAddress, hostPort, CLIENT_PORT, new SongMessageHandlerFactory());
+        this.endpoint.openOutboundChannel();
+        this.endpoint.openInboundChannel();
         try {
+            if (isHost) {
+                System.out.println("Hosting at " + InetAddress.getLocalHost().getHostAddress() + ":" + HOST_PORT);
+            } else {
+                System.out.println("Connected to " + hostAddress + ":" + hostPort);
+            }
             Song song = new Song();
             song.start();
             this.songDocument = new SongDocument(song);

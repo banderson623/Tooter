@@ -142,7 +142,7 @@ public class Piano extends JPanel {
 
         this.add(pianoChoice);
 
-        this.songController = new SongController(isHost);
+        this.songController = new SongController(isHost, null, 0);
     }
 
     public void paintComponent(Graphics g) {
