@@ -17,7 +17,7 @@ import javax.swing.SwingUtilities;
 
 public class TooterProjectGUI {
 
-	private String[] choices = {"Piano", "Drums", "TurnTable"};
+	private String[] instrumentChoices = {"Piano", "Drums", "TurnTable"};
 	private JFrame frame = new JFrame();
 	private JPanel panelCont = new JPanel();
 	private JPanel panelChoice = new JPanel();
@@ -47,9 +47,9 @@ public class TooterProjectGUI {
 		        	JLabel choiceText = new JLabel("Choose Your Weapon ");
 		        	
 		        	// Add drop down
-		         	final JComboBox<String> comboBox = new JComboBox<String>();
-		         	for(int i = 0; i < choices.length; i++)
-		         		comboBox.addItem(choices[i]);
+		         	final JComboBox comboBox = new JComboBox();
+		         	for(int i = 0; i < instrumentChoices.length; i++)
+		         		comboBox.addItem(instrumentChoices[i]);
 			        
 			        // Add submit button
 			        JButton submitBut = new JButton("Choose");
