@@ -32,7 +32,7 @@ public class TooterProjectGUI {
 		        			        
 		        	// Add image to top panel
 		        	JLabel label = new JLabel();  
-		        	label.setIcon(new ImageIcon("tooterlogo.png"));// your image here  
+		        	label.setIcon(new ImageIcon("images/tooterlogo.png"));// your image here
 		        	topPanel.add(label);  
 		        	
 		        // Create the bottom panel

@@ -22,12 +22,12 @@ public class Piano extends JPanel {
 
         // Add image to top panel
         JLabel label = new JLabel();
-        label.setIcon(new ImageIcon("keys.jpg"));
+        label.setIcon(new ImageIcon("images/keys.jpg"));
         topPanel.add(label);
 
         // Add Title
         JLabel title = new JLabel();
-        title.setIcon(new ImageIcon("pianotitle.png"));
+        title.setIcon(new ImageIcon("images/pianotitle.png"));
         topPanel.add(title);
 
         // Create the keys panel
