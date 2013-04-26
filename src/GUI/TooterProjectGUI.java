@@ -1,12 +1,11 @@
 package GUI;
 
-import controller.SongController;
+import util.LibraryUtils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import util.LibraryUtils;
 
 public class TooterProjectGUI {
 
@@ -15,7 +14,6 @@ public class TooterProjectGUI {
      }
 
 
-    SongController songController;
     private JFrame frame = new JFrame();
     private JPanel panelCont = new JPanel();
     private JPanel panelMain = new JPanel();
