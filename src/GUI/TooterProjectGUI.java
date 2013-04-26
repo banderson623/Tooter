@@ -1,11 +1,17 @@
 package GUI;
 
+import util.LibraryUtils;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class TooterProjectGUI {
+
+    static {
+        LibraryUtils.setLibraryPath();
+    }
 
 	private String[] instrumentChoices = {"Piano", "Drums", "TurnTable"};
 	private JFrame frame = new JFrame();
