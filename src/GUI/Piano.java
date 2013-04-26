@@ -3,8 +3,6 @@ package GUI;
 import controller.SongController;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,8 +10,6 @@ import java.awt.event.ActionListener;
 public class Piano extends JPanel {
 
     private String[] keyNames = {"A", "B", "C", "D", "E", "F", "G"};
-    private String PORT = "";
-    private String IP = "";
     private SongController songController;
     private instruments.Piano piano;
 
@@ -23,6 +19,9 @@ public class Piano extends JPanel {
         pianoChoice.setLayout(new GridLayout(5, 1, 0, 0));
         pianoChoice.setPreferredSize(new Dimension(600, 750));
         pianoChoice.setBackground(Color.WHITE);
+
+        this.songController = new SongController(isHost, null, 0);
+        this.piano = new instruments.Piano();
 
         // Add image to top panel
         JLabel label = new JLabel();
@@ -77,17 +76,13 @@ public class Piano extends JPanel {
         ipPanel.setBackground(Color.WHITE);
         // Add a label for IP and Port info
         JLabel ipPort = new JLabel();
-        ipPort.setText("Your IP  is: " + IP + ". Your Port is: " + PORT + ".");
+        ipPort.setText("You're hosting at " + songController.getClientAddress() + ".");
         ipPanel.add(ipPort);
 
         pianoChoice.add(keysPanel);
         pianoChoice.add(botPanel);
         pianoChoice.add(ipPanel);
         this.add(pianoChoice);
-        this.songController = new SongController(isHost, null, 0);
-        this.piano = new instruments.Piano();
-
-
     }
 
     public void paintComponent(Graphics g) {

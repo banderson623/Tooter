@@ -9,6 +9,7 @@ import messaging.Song;
 import messaging.SongDocument;
 import messaging.SongFragment;
 import messaging.SongMessageHandlerFactory;
+import util.NetworkUtils;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -63,6 +64,10 @@ public class SongController {
             endpoint.closeInboundChannel();
             endpoint.closeOutboundChannel();
         }
+    }
+
+    public String getClientAddress() {
+        return NetworkUtils.getIpAddress() + ":" + CLIENT_PORT;
     }
 
 }
