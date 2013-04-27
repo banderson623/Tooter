@@ -68,7 +68,8 @@ public class TooterProjectGUI {
         panelMain.add(main);
 
         // piano panel
-        Piano piano = new Piano(cl, panelCont, true);
+        Piano piano = new Piano(cl, panelCont);
+        Session.sessionListeners.add(piano);
         panelPiano.add(piano);
 
         // choosePanel

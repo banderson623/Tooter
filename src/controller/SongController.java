@@ -12,7 +12,6 @@ import messaging.SongMessageHandlerFactory;
 import util.NetworkUtils;
 
 import java.io.IOException;
-import java.net.InetAddress;
 
 public class SongController {
 
@@ -20,13 +19,25 @@ public class SongController {
     private static final int CLIENT_PORT = 4040;
 
     private SongDocument songDocument;
-    private Piano piano;
-    private boolean isHost;
+    private Piano piano = new Piano();
+    private boolean isHost = true;
     private Endpoint<Song> endpoint;
+    private String hostAddress;
+    private int hostPort;
 
-    public SongController(boolean isHost, String hostAddress, int hostPort) {
+    public void isHost(boolean isHost) {
         this.isHost = isHost;
-        this.piano = new Piano();
+    }
+
+    public void setHostAddress(String hostAddress) {
+        this.hostAddress = hostAddress;
+    }
+
+    public void setHostPort(int hostPort) {
+        this.hostPort = hostPort;
+    }
+
+    public void initialize() {
         Song song = new Song();
         try {
             this.songDocument = new SongDocument(song);
@@ -34,19 +45,18 @@ public class SongController {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
         this.endpoint = isHost ? new ZmqHostEndpoint<Song>(HOST_PORT, new SongMessageHandlerFactory(songDocument)) :
-                new ZmqClientEndpoint<Song>(hostAddress, hostPort, CLIENT_PORT, new SongMessageHandlerFactory(songDocument));
+                new ZmqClientEndpoint<Song>(hostAddress, hostPort, CLIENT_PORT,
+                        new SongMessageHandlerFactory(songDocument));
         this.endpoint.openOutboundChannel();
         this.endpoint.openInboundChannel();
-        try {
-            if (isHost) {
-                System.out.println("Hosting at " + InetAddress.getLocalHost().getHostAddress() + ":" + HOST_PORT);
-            } else {
-                System.out.println("Connected to " + hostAddress + ":" + hostPort);
-            }
-            song.start();
-        } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        System.out.println("Inbound and outbound channels opened");
+        System.out.println("Hosting: " + isHost);
+        if (isHost) {
+            System.out.println("Hosting at " + NetworkUtils.getIpAddress() + ":" + HOST_PORT);
+        } else {
+            System.out.println("Connected to " + hostAddress + ":" + hostPort);
         }
+        song.start();
     }
 
     public void play(Instrument.Note note) {
@@ -63,6 +73,7 @@ public class SongController {
         if (endpoint != null) {
             endpoint.closeInboundChannel();
             endpoint.closeOutboundChannel();
+            System.out.println("Channels closed");
         }
     }
 

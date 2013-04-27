@@ -20,14 +20,14 @@ public class JoinHost extends JPanel {
         ipLabel.setText("Please Enter the IP of the Host");
         topPanel.add(ipLabel);
         // IP Input Box
-        JTextField ipInput = new JTextField();
+        final JTextField ipInput = new JTextField();
         topPanel.add(ipInput);
         // Port Label
         JLabel portLabel = new JLabel();
         ipLabel.setText("Please Enter the Port of the Host");
         topPanel.add(portLabel);
         // Port Input Box
-        JTextField portInput = new JTextField();
+        final JTextField portInput = new JTextField();
         topPanel.add(portInput);
         // Submit Button
         JButton submit = new JButton("Submit");
@@ -35,6 +35,14 @@ public class JoinHost extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent arg0) {
+                String address = ipInput.getText().trim();
+                int port = Integer.valueOf(portInput.getText().trim());
+                Session.songController.setHostAddress(address);
+                Session.songController.setHostPort(port);
+                Session.songController.isHost(false);
+                for (SessionListener listener : Session.sessionListeners) {
+                    listener.onSessionJoin(address, port);
+                }
                 cl.show(panelCont, "choice");
             }
 

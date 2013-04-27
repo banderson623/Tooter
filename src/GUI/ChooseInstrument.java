@@ -1,18 +1,9 @@
 package GUI;
 
-import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Graphics;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 public class ChooseInstrument extends JPanel {
 
@@ -48,6 +39,7 @@ public class ChooseInstrument extends JPanel {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 cl.show(panelCont, comboBox.getSelectedItem().toString());
+                Session.songController.initialize();
             }
         });
         topPanel.add(submitBut);
@@ -58,6 +50,7 @@ public class ChooseInstrument extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent arg0) {
+                Session.songController.terminate();
                 cl.show(panelCont, "main");
             }
 
