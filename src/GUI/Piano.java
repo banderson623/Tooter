@@ -75,7 +75,7 @@ public class Piano extends JPanel implements SessionListener {
         ipPanel.setBackground(Color.WHITE);
         // Add a label for IP and Port info
         status = new JLabel();
-        status.setText("You're hosting at " + Session.songController.getClientAddress() + ".");
+        status.setText("You're hosting at " + Session.songController.getHostingAddress() + ".");
         ipPanel.add(status);
 
         pianoChoice.add(keysPanel);

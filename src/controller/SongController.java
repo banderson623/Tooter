@@ -81,4 +81,8 @@ public class SongController {
         return NetworkUtils.getIpAddress() + ":" + CLIENT_PORT;
     }
 
+    public String getHostingAddress() {
+        return NetworkUtils.getIpAddress() + ":" + HOST_PORT;
+    }
+
 }
