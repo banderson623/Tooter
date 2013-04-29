@@ -1,5 +1,7 @@
 package GUI;
 
+import messaging.SongFragment;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -46,7 +48,8 @@ public class Piano extends JPanel implements SessionListener {
 
                 @Override
                 public void actionPerformed(ActionEvent arg0) {
-                    Session.songController.play(piano.getNoteByName(key.getText()));
+                    SongFragment fragment = new SongFragment(piano.getNoteByName(key.getText()));
+                    Session.songController.play(fragment, true);
                 }
 
             });

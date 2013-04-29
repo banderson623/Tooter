@@ -1,11 +1,9 @@
 package controller;
 
-import com.digitalxyncing.communication.ClientAddedListener;
 import com.digitalxyncing.communication.Endpoint;
 import com.digitalxyncing.communication.HostEndpoint;
 import com.digitalxyncing.communication.impl.ZmqClientEndpoint;
 import com.digitalxyncing.communication.impl.ZmqHostEndpoint;
-import instruments.Instrument;
 import instruments.Piano;
 import messaging.Song;
 import messaging.SongDocument;
@@ -18,7 +16,7 @@ import java.io.IOException;
 public class SongController {
 
     private static final int HOST_PORT = 5050;
-    private static final int CLIENT_PORT = 4040;
+    private static final int CLIENT_PORT = 6969;
 
     private SongDocument songDocument;
     private Piano piano = new Piano();
@@ -49,29 +47,31 @@ public class SongController {
         }
         if (isHost) {
             HostEndpoint<Song> hostEndpoint = new ZmqHostEndpoint<Song>(HOST_PORT,
-                    new SongMessageHandlerFactory(songDocument));
-            hostEndpoint.addClientAddedListener(new ClientAddedListener() {
-                @Override
-                public void onClientAdded(String address, int port) {
-                    System.out.println("Client connected: " + address + ":" + port);
-                }
-            });
+                    new SongMessageHandlerFactory());
+            //hostEndpoint.addClient("127.0.0.1", CLIENT_PORT);
             this.endpoint = hostEndpoint;
         } else {
             this.endpoint = new ZmqClientEndpoint<Song>(hostAddress, hostPort, CLIENT_PORT,
-                    new SongMessageHandlerFactory(songDocument));
+                    new SongMessageHandlerFactory());
         }
         song.start();
     }
 
-    public void play(Instrument.Note note) {
-        System.out.println(note.name());
-        SongFragment fragment = new SongFragment(note);
-        piano.play(note);
+    /**
+     * Plays the given {@link SongFragment} and updates the {@link SongDocument}.
+     *
+     * @param fragment  the {@code SongFragment} to play
+     * @param propagate indicates if the update should be propagated to other peers
+     */
+    public void play(SongFragment fragment, boolean propagate) {
+        System.out.println(fragment.getNote().name());
+        piano.play(fragment.getNote());
         songDocument.update(fragment);
 
-        // Propagate the change
-        endpoint.send(fragment);
+        if (propagate) {
+            // Propagate the change
+            endpoint.send(fragment);
+        }
     }
 
     public void openChannels() {
@@ -93,10 +93,6 @@ public class SongController {
         }
     }
 
-    public String getClientAddress() {
-        return NetworkUtils.getIpAddress() + ":" + CLIENT_PORT;
-    }
-
     public String getHostingAddress() {
         return NetworkUtils.getIpAddress() + ":" + HOST_PORT;
     }
@@ -105,6 +101,10 @@ public class SongController {
         if (isHost) {
             ((ZmqHostEndpoint<Song>) endpoint).addClient(address, port);
         }
+    }
+
+    public SongDocument getDocument() {
+        return songDocument;
     }
 
 }
