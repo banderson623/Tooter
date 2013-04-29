@@ -1,6 +1,8 @@
 package controller;
 
+import com.digitalxyncing.communication.ClientAddedListener;
 import com.digitalxyncing.communication.Endpoint;
+import com.digitalxyncing.communication.HostEndpoint;
 import com.digitalxyncing.communication.impl.ZmqClientEndpoint;
 import com.digitalxyncing.communication.impl.ZmqHostEndpoint;
 import instruments.Instrument;
@@ -38,23 +40,26 @@ public class SongController {
     }
 
     public void initialize() {
+        System.out.println("Initializing song document");
         Song song = new Song();
         try {
             this.songDocument = new SongDocument(song);
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-        this.endpoint = isHost ? new ZmqHostEndpoint<Song>(HOST_PORT, new SongMessageHandlerFactory(songDocument)) :
-                new ZmqClientEndpoint<Song>(hostAddress, hostPort, CLIENT_PORT,
-                        new SongMessageHandlerFactory(songDocument));
-        this.endpoint.openOutboundChannel();
-        this.endpoint.openInboundChannel();
-        System.out.println("Inbound and outbound channels opened");
-        System.out.println("Hosting: " + isHost);
         if (isHost) {
-            System.out.println("Hosting at " + NetworkUtils.getIpAddress() + ":" + HOST_PORT);
+            HostEndpoint<Song> hostEndpoint = new ZmqHostEndpoint<Song>(HOST_PORT,
+                    new SongMessageHandlerFactory(songDocument));
+            hostEndpoint.addClientAddedListener(new ClientAddedListener() {
+                @Override
+                public void onClientAdded(String address, int port) {
+                    System.out.println("Client connected: " + address + ":" + port);
+                }
+            });
+            this.endpoint = hostEndpoint;
         } else {
-            System.out.println("Connected to " + hostAddress + ":" + hostPort);
+            this.endpoint = new ZmqClientEndpoint<Song>(hostAddress, hostPort, CLIENT_PORT,
+                    new SongMessageHandlerFactory(songDocument));
         }
         song.start();
     }
@@ -67,6 +72,17 @@ public class SongController {
 
         // Propagate the change
         endpoint.send(fragment);
+    }
+
+    public void openChannels() {
+        this.endpoint.openOutboundChannel();
+        this.endpoint.openInboundChannel();
+        System.out.println("Inbound and outbound channels opened");
+        if (isHost) {
+            System.out.println("Hosting at " + NetworkUtils.getIpAddress() + ":" + HOST_PORT);
+        } else {
+            System.out.println("Connected to " + hostAddress + ":" + hostPort);
+        }
     }
 
     public void terminate() {
@@ -83,6 +99,12 @@ public class SongController {
 
     public String getHostingAddress() {
         return NetworkUtils.getIpAddress() + ":" + HOST_PORT;
+    }
+
+    public void addClient(String address, int port) {
+        if (isHost) {
+            ((ZmqHostEndpoint<Song>) endpoint).addClient(address, port);
+        }
     }
 
 }

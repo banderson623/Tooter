@@ -10,6 +10,9 @@ public class Piano extends JPanel implements SessionListener {
     private String[] keyNames = {"A", "B", "C", "D", "E", "F", "G"};
     private instruments.Piano piano;
     private JLabel status;
+    private JTextField clientBox;
+    private JButton addClient;
+    private JPanel botPanel;
 
 
     public Piano(final CardLayout cl, final JPanel panelCont) {
@@ -52,7 +55,7 @@ public class Piano extends JPanel implements SessionListener {
 
 
         // Creates the bottom panel
-        JPanel botPanel = new JPanel();
+        botPanel = new JPanel();
         botPanel.setBackground(Color.WHITE);
         // Create a button to go back
         JButton back = new JButton();
@@ -69,6 +72,27 @@ public class Piano extends JPanel implements SessionListener {
 
         });
         botPanel.add(back);
+
+        clientBox = new JTextField("Client address");
+        addClient = new JButton("Add Client");
+        addClient.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String[] ipAndPort = clientBox.getText().trim().split(":");
+                Session.songController.addClient(ipAndPort[0], Integer.valueOf(ipAndPort[1]));
+            }
+        });
+        botPanel.add(clientBox);
+        botPanel.add(addClient);
+
+        JButton start = new JButton("Start");
+        start.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Session.songController.openChannels();
+            }
+        });
+        botPanel.add(start);
 
         // Create the IP Panel
         JPanel ipPanel = new JPanel();
@@ -94,6 +118,8 @@ public class Piano extends JPanel implements SessionListener {
             @Override
             public void run() {
                 status.setText("You're connected to " + address + ":" + port);
+                botPanel.remove(addClient);
+                botPanel.remove(clientBox);
             }
         });
     }
