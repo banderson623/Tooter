@@ -81,21 +81,16 @@ public class Piano extends JPanel implements SessionListener {
         addClient.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (clientBox.getText().trim().length() == 0) {
+                    return;
+                }
                 String[] ipAndPort = clientBox.getText().trim().split(":");
                 Session.songController.addClient(ipAndPort[0], Integer.valueOf(ipAndPort[1]));
+                clientBox.setText("");
             }
         });
         botPanel.add(clientBox);
         botPanel.add(addClient);
-
-        JButton start = new JButton("Start");
-        start.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Session.songController.openChannels();
-            }
-        });
-        botPanel.add(start);
 
         // Create the IP Panel
         JPanel ipPanel = new JPanel();

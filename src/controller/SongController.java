@@ -16,7 +16,7 @@ import java.io.IOException;
 public class SongController {
 
     private static final int HOST_PORT = 5050;
-    private static final int CLIENT_PORT = 6969;
+    private static final int CLIENT_PORT = 4040;
 
     private SongDocument songDocument;
     private Piano piano = new Piano();
@@ -54,6 +54,16 @@ public class SongController {
             this.endpoint = new ZmqClientEndpoint<Song>(hostAddress, hostPort, CLIENT_PORT,
                     new SongMessageHandlerFactory());
         }
+
+        this.endpoint.openOutboundChannel();
+        this.endpoint.openInboundChannel();
+        System.out.println("Inbound and outbound channels opened");
+        if (isHost) {
+            System.out.println("Hosting at " + NetworkUtils.getIpAddress() + ":" + HOST_PORT);
+        } else {
+            System.out.println("Connected to " + hostAddress + ":" + hostPort);
+        }
+
         song.start();
     }
 
@@ -71,17 +81,6 @@ public class SongController {
         if (propagate) {
             // Propagate the change
             endpoint.send(fragment);
-        }
-    }
-
-    public void openChannels() {
-        this.endpoint.openOutboundChannel();
-        this.endpoint.openInboundChannel();
-        System.out.println("Inbound and outbound channels opened");
-        if (isHost) {
-            System.out.println("Hosting at " + NetworkUtils.getIpAddress() + ":" + HOST_PORT);
-        } else {
-            System.out.println("Connected to " + hostAddress + ":" + hostPort);
         }
     }
 
