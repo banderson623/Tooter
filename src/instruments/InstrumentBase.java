@@ -103,7 +103,7 @@ public abstract class InstrumentBase implements Instrument{
     {
         for (Note note : getSupportedNotes())
         {
-            if (note.name().equals(name))
+            if (note.name().equalsIgnoreCase(name))
             {
                 return note;
             }

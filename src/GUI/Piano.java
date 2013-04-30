@@ -1,120 +1,65 @@
 package GUI;
 
-import controller.SongController;
+import messaging.SongFragment;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Piano extends JPanel {
+public class Piano extends JPanel implements SessionListener {
 
-    private SongController songController;
+    private String[] keyNames = {"A", "B", "C", "D", "E", "F", "G"};
     private instruments.Piano piano;
+    private JLabel status;
+    private JTextField clientBox;
+    private JButton addClient;
+    private JPanel botPanel;
 
-    public Piano(final CardLayout cl, final JPanel panelCont, boolean isHost) {
+
+    public Piano(final CardLayout cl, final JPanel panelCont) {
         JPanel pianoChoice = new JPanel();
-        pianoChoice.setLayout(new GridLayout(3, 1, 5, 5));
+        pianoChoice.setLayout(new GridLayout(5, 1, 0, 0));
+        pianoChoice.setPreferredSize(new Dimension(600, 750));
+        pianoChoice.setBackground(Color.WHITE);
 
-        // Create the top panel
-        JPanel topPanel = new JPanel();
-        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
+        this.piano = new instruments.Piano();
 
         // Add image to top panel
         JLabel label = new JLabel();
         label.setIcon(new ImageIcon("Resources/images/keys.jpg"));
-        topPanel.add(label);
+        pianoChoice.add(label);
 
         // Add Title
         JLabel title = new JLabel();
         title.setIcon(new ImageIcon("Resources/images/pianotitle.png"));
-        topPanel.add(title);
+        pianoChoice.add(title);
 
         // Create the keys panel
         JPanel keysPanel = new JPanel();
-        keysPanel.setPreferredSize(new Dimension(200, 200));
+        keysPanel.setBackground(Color.WHITE);
+
         // Add the keys
-        JButton keyA = new JButton("A");
-        keyA.setPreferredSize(new Dimension(50, 250));
-        keyA.addActionListener(new ActionListener() {
+        for (int i = 0; i < keyNames.length; i++) {
+            final JButton key = new JButton(keyNames[i]);
+            key.setPreferredSize(new Dimension(50, 120));
+            key.setBackground(Color.WHITE);
+            key.addActionListener(new ActionListener() {
 
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                songController.play(piano.getNoteByName("a"));
-            }
+                @Override
+                public void actionPerformed(ActionEvent arg0) {
+                    SongFragment fragment = new SongFragment(piano.getNoteByName(key.getText()));
+                    Session.songController.play(fragment, true);
+                }
 
-        });
-        JButton keyB = new JButton("B");
-        keyB.setPreferredSize(new Dimension(50, 250));
-        keyB.addActionListener(new ActionListener() {
+            });
+            keysPanel.add(key);
+        }
 
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                songController.play(piano.getNoteByName("b"));
-            }
-
-        });
-        JButton keyC = new JButton("C");
-        keyC.setPreferredSize(new Dimension(50, 250));
-        keyC.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                songController.play(piano.getNoteByName("c"));
-            }
-
-        });
-        JButton keyD = new JButton("D");
-        keyD.setPreferredSize(new Dimension(50, 250));
-        keyD.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                songController.play(piano.getNoteByName("d"));
-            }
-
-        });
-        JButton keyE = new JButton("E");
-        keyE.setPreferredSize(new Dimension(50, 250));
-        keyE.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                songController.play(piano.getNoteByName("e"));
-            }
-
-        });
-        JButton keyF = new JButton("F");
-        keyF.setPreferredSize(new Dimension(50, 250));
-        keyF.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                songController.play(piano.getNoteByName("f"));
-            }
-
-        });
-        JButton keyG = new JButton("G");
-        keyG.setPreferredSize(new Dimension(50, 250));
-        keyG.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                songController.play(piano.getNoteByName("g"));
-            }
-
-        });
-        keysPanel.add(keyA);
-        keysPanel.add(keyB);
-        keysPanel.add(keyC);
-        keysPanel.add(keyD);
-        keysPanel.add(keyE);
-        keysPanel.add(keyF);
-        keysPanel.add(keyG);
 
         // Creates the bottom panel
-        JPanel botPanel = new JPanel();
-
+        botPanel = new JPanel();
+        botPanel.setBackground(Color.WHITE);
         // Create a button to go back
         JButton back = new JButton();
         back.setText("Choose a new instrument");
@@ -122,6 +67,8 @@ public class Piano extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent arg0) {
+                // Terminate the session
+                Session.songController.terminate();
                 cl.show(panelCont, "choice");
 
             }
@@ -129,19 +76,49 @@ public class Piano extends JPanel {
         });
         botPanel.add(back);
 
+        clientBox = new JTextField("Client address");
+        addClient = new JButton("Add Client");
+        addClient.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (clientBox.getText().trim().length() == 0) {
+                    return;
+                }
+                String[] ipAndPort = clientBox.getText().trim().split(":");
+                Session.songController.addClient(ipAndPort[0], Integer.valueOf(ipAndPort[1]));
+                clientBox.setText("");
+            }
+        });
+        botPanel.add(clientBox);
+        botPanel.add(addClient);
 
-        pianoChoice.add(topPanel);
+        // Create the IP Panel
+        JPanel ipPanel = new JPanel();
+        ipPanel.setBackground(Color.WHITE);
+        // Add a label for IP and Port info
+        status = new JLabel();
+        status.setText("You're hosting at " + Session.songController.getHostingAddress() + ".");
+        ipPanel.add(status);
+
         pianoChoice.add(keysPanel);
         pianoChoice.add(botPanel);
-
+        pianoChoice.add(ipPanel);
         this.add(pianoChoice);
-        this.songController = new SongController(isHost, null, 0);
-        this.piano = new instruments.Piano();
-
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
     }
 
+    @Override
+    public void onSessionJoin(final String address, final int port) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                status.setText("You're connected to " + address + ":" + port);
+                botPanel.remove(addClient);
+                botPanel.remove(clientBox);
+            }
+        });
+    }
 }
