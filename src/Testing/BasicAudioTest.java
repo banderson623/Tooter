@@ -31,9 +31,9 @@ public class BasicAudioTest {
         LinkedList<Instrument.Note> orchesta = new LinkedList<Instrument.Note>();
 
 //        orchesta.addAll((new Gameboy()).getSupportedNotes());
-        orchesta.addAll((new DrumMachine()).getSupportedNotes());
-        orchesta.addAll((new Piano()).getSupportedNotes());
-        orchesta.addAll((new Guitar()).getSupportedNotes());
+//        orchesta.addAll((new DrumMachine()).getSupportedNotes());
+//        orchesta.addAll((new Piano()).getSupportedNotes());
+        orchesta.addAll((new Drums()).getSupportedNotes());
 //        orchesta.addAll((new Brian()).getSupportedNotes());
 //        orchesta.addAll((new Kmart()).getSupportedNotes());
         Random r = new Random();
@@ -43,7 +43,7 @@ public class BasicAudioTest {
 //            piano.play(soundKit.getSupportedNotes().get(i));
 //        }
 
-        for(int i = 0; i < 100; i++) {
+        for(int i = 0; i < 10; i++) {
             Thread.sleep(500 * r.nextInt(4));
             Instrument.Note noteToPlay = orchesta.get(r.nextInt(orchesta.size()));
 //            testSong.addNote(noteToPlay);
