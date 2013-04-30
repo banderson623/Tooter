@@ -38,7 +38,7 @@ public class TestDiscovery {
 
         Sniffy sniff = new ZmqSniffy();
         // not blocking
-        sniff.discoverXyncersOnPort(5050,new Sniffy.HostListCallBack() {
+        sniff.discoverXyncersOnPort(3030,new Sniffy.HostListCallBack() {
             @Override
             public void results(List<String> listOfDiscoveredIPs)
             {
