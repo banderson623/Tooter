@@ -16,13 +16,39 @@ public class TestDiscovery {
     public static void main(String[] args) {
 
 
+//        Sniffy sniff = new ZmqSniffy();
+//        List<String> hosts =  sniff.discoverXyncersOnPort(5050);
+//
+//        System.out.println("Found: " + hosts.size() + " hosts");
+//        for(String h : hosts){
+//            System.out.println(h);
+//        }
+
+
+//        class HostCallBack implements Sniffy.HostListCallBack {
+//            @Override
+//            public void results(List<String> listOfDiscoveredIPs)
+//            {
+//                // need to add to the gui
+//                for(String h : listOfDiscoveredIPs){
+//                    System.out.println(h);
+//                }
+//            }
+//        }
+
         Sniffy sniff = new ZmqSniffy();
-        List<String> hosts =  sniff.discoverXyncersOnPort(5050);
+        // not blocking
+        sniff.discoverXyncersOnPort(5050,new Sniffy.HostListCallBack() {
+            @Override
+            public void results(List<String> listOfDiscoveredIPs)
+            {
+                System.out.println("Here comes the hosts... discovery is done...");
+                for(String h : listOfDiscoveredIPs){
+                    System.out.println(h);
+                }
+            }
+        });
+        System.out.println("Return without blocking...");
 
-
-        System.out.println("Found: " + hosts.size() + " hosts");
-        for(String h : hosts){
-            System.out.println(h);
-        }
     }
 }
