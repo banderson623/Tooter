@@ -6,5 +6,15 @@ package instruments;
  * <p/>
  * Add some readme here about how this operates
  */
-public class Drums {
+public class Drums extends InstrumentBase {
+
+    public Drums(){
+        addNotesFromWaveFilesInDirectory("drums");
+    }
+
+    @Override
+    public String getName()
+    {
+        return "Drum";
+    }
 }
