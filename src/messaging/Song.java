@@ -1,21 +1,50 @@
 package messaging;
 
+import GUI.Session;
 import instruments.Instrument;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectStreamException;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Scanner;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * This must be thread safe.
  */
 public class Song{
     // Represent notes over time, first parameter will be time (milliseconds)
+    public static ScheduledExecutorService playerExecutor = Executors.newScheduledThreadPool(1);
+    public static SongPlayer playing = null;
     private LinkedList<Toot> toots;
     Long firstTootTime;
+
+    public class SongPlayer implements Runnable {
+        private List<Toot> toots;
+        public SongPlayer(List<Toot> toots) {
+            this.toots = toots;
+        }
+
+        public void run() {
+            Long start = System.currentTimeMillis();
+            Long tootTime = 0L;
+            Iterator<Toot> it = toots.iterator();
+            while(it.hasNext()) {
+                Toot toot = it.next();
+                while(true) {
+                    tootTime = System.currentTimeMillis();
+                    if(tootTime > toot.getTime() + start) {
+                        Session.songController.play(toot);
+                        break;
+                    }
+                }
+            }
+            playing = null;
+        }
+    }
 
     public Song(){
         toots = new LinkedList<Toot>();
@@ -47,9 +76,14 @@ public class Song{
         synchronized(this) {
             // Copy this locally.
             final List<Toot> myToots = new LinkedList<Toot>(toots);
+            if(playing == null) {
+                playing = new SongPlayer(myToots);
+                Song.playerExecutor.execute(playing);
+            }
+            else {
+                System.out.println("A song is already playing!");
+            }
         }
-
-//        Executors.newScheduledThreadPool(1,)
     }
 
     public synchronized String toString(){
@@ -98,6 +132,7 @@ public class Song{
         synchronized(this) {
             myToots = new LinkedList<Toot>(toots);
         }
+        out.append(firstTootTime);
         for(Toot t : myToots){
             out.append("*");
             out.append(t.getTime());
@@ -111,9 +146,43 @@ public class Song{
 
     public void intializeFromSerializedString(String inputString)
     {
-        Scanner sc = new Scanner(inputString);
-        while(sc.hasNext()){
+        synchronized(this) {
+            String[] tootStrings = inputString.split("\\*");
+            toots = new LinkedList<Toot>();
+            firstTootTime = Long.parseLong(tootStrings[0]);
+            for(int i=1;i<tootStrings.length;++i) {
+                String tootString = tootStrings[i];
+                Toot toot = new Toot();
+                String[] noteStrings = tootString.split("\\|");
+                toot.setTime(Long.parseLong(noteStrings[0]));
+                for(int j=1;j<noteStrings.length;++j) {
+                    final String noteString = noteStrings[j];
+                    if(noteString.isEmpty()) {
+                        continue;
+                    }
+                    toot.add(new Instrument.Note()
+                    {
+                        @Override
+                        public String id()
+                        {
+                            return noteString;
+                        }
 
+                        @Override
+                        public String name()
+                        {
+                            return "noname";
+                        }
+
+                        @Override
+                        public String getFileName()
+                        {
+                            return noteString;
+                        }
+                    });
+                }
+                toots.add(toot);
+            }
         }
     }
 

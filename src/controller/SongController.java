@@ -12,6 +12,9 @@ import messaging.SongMessageHandlerFactory;
 import util.NetworkUtils;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 public class SongController {
 
@@ -82,6 +85,15 @@ public class SongController {
             // Propagate the change
             endpoint.send(fragment);
         }
+    }
+
+    /**
+     * Play wrapper method to play {@link messaging.Song.Toot}.
+     *
+     * @param toot  the {@code Toot} to play
+     */
+    public void play(Song.Toot toot) {
+        piano.play(toot.getNotes());
     }
 
     public void terminate() {
