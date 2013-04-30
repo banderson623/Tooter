@@ -26,6 +26,9 @@ public class LibraryUtils {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
+        if(System.getProperty("os.name").contains("Windows")) {
+            System.loadLibrary("libzmq");
+        }
     }
 
 }
