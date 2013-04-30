@@ -25,6 +25,12 @@ public class commandLinePerformer
         //Setup a piano
         Instrument piano = new Piano();
 
+//        Song myRecordedSong = new Song();
+//        myRecordedSong.intializeFromSerializedString("1367298182076*7136|piano/d.wav*7695|piano/e.wav*8271|piano/a.wav*9406|piano/c.wav*9990|piano/d.wav*11669|piano/a.wav");
+//        myRecordedSong.play();
+//        return;
+
+
         // Start a new song
         Song mySong = new Song();
 
@@ -68,8 +74,9 @@ public class commandLinePerformer
 
             System.out.println("Song");
             System.out.println(mySong);
+            System.out.println(mySong.toSerializedString());
             System.out.println("Playing song...");
-            mySong.play();
+            //mySong.play();
 
         } catch (IOException ioe) {
             System.out.println("IO error trying to read your name!");
