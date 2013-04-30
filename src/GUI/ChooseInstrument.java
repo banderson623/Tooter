@@ -1,17 +1,9 @@
 package GUI;
 
-import java.awt.CardLayout;
-import java.awt.Graphics;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 public class ChooseInstrument extends JPanel {
 
@@ -34,7 +26,7 @@ public class ChooseInstrument extends JPanel {
         	topPanel.add(choiceText);
         	
         	// Add drop down
-         	final JComboBox<String> comboBox = new JComboBox<String>();
+         	final JComboBox comboBox = new JComboBox();
          	for(int i = 0; i < instrumentChoices.length; i++)
          		comboBox.addItem(instrumentChoices[i]);
          	topPanel.add(comboBox);

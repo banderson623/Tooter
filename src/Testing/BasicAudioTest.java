@@ -4,7 +4,6 @@ import instruments.*;
 import messaging.Song;
 import util.LibraryUtils;
 
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -32,10 +31,10 @@ public class BasicAudioTest {
         LinkedList<Instrument.Note> orchesta = new LinkedList<Instrument.Note>();
 
 //        orchesta.addAll((new Gameboy()).getSupportedNotes());
-//        orchesta.addAll((new DrumMachine()).getSupportedNotes());
+        orchesta.addAll((new DrumMachine()).getSupportedNotes());
         orchesta.addAll((new Piano()).getSupportedNotes());
         orchesta.addAll((new Guitar()).getSupportedNotes());
-        orchesta.addAll((new Brian()).getSupportedNotes());
+//        orchesta.addAll((new Brian()).getSupportedNotes());
 //        orchesta.addAll((new Kmart()).getSupportedNotes());
         Random r = new Random();
 
@@ -44,11 +43,11 @@ public class BasicAudioTest {
 //            piano.play(soundKit.getSupportedNotes().get(i));
 //        }
 
-        for(int i = 0; i < 24; i++) {
-            Thread.sleep(100 * r.nextInt(4));
+        for(int i = 0; i < 100; i++) {
+            Thread.sleep(500 * r.nextInt(4));
             Instrument.Note noteToPlay = orchesta.get(r.nextInt(orchesta.size()));
-            testSong.addNote(noteToPlay);
-//            piano.play(noteToPlay);
+//            testSong.addNote(noteToPlay);
+            piano.play(noteToPlay);
         }
         System.out.println(testSong);
         System.out.println(testSong.toSerializedString());
