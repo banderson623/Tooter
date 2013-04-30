@@ -33,13 +33,19 @@ public class ChooseInstrument extends JPanel {
             comboBox.addItem(instrumentChoices[i]);
         topPanel.add(comboBox);
 
+        JLabel passwordLabel = new JLabel("Password: ");
+        final JPasswordField passwordField = new JPasswordField();
+        topPanel.add(passwordLabel);
+        topPanel.add(passwordField);
+
         // Add submit button
         JButton submitBut = new JButton("Choose");
         submitBut.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 cl.show(panelCont, comboBox.getSelectedItem().toString());
-                Session.songController.initialize();
+                String password = String.copyValueOf(passwordField.getPassword());
+                Session.songController.initialize(password);
             }
         });
         topPanel.add(submitBut);

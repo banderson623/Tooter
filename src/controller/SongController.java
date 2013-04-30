@@ -1,8 +1,8 @@
 package controller;
 
+import authentication.SessionAuthenticator;
 import com.digitalxyncing.communication.Endpoint;
-import com.digitalxyncing.communication.HostEndpoint;
-import com.digitalxyncing.communication.impl.ZmqClientEndpoint;
+import com.digitalxyncing.communication.impl.ZmqEndpointFactory;
 import com.digitalxyncing.communication.impl.ZmqHostEndpoint;
 import instruments.Piano;
 import messaging.Song;
@@ -12,14 +12,12 @@ import messaging.SongMessageHandlerFactory;
 import util.NetworkUtils;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 
 public class SongController {
 
     private static final int HOST_PORT = 5050;
     private static final int CLIENT_PORT = 4040;
+    private static final int DISCOVERY_PORT = 3030;
 
     private SongDocument songDocument;
     private Piano piano = new Piano();
@@ -40,22 +38,22 @@ public class SongController {
         this.hostPort = hostPort;
     }
 
-    public void initialize() {
+    public void initialize(String password) {
         System.out.println("Initializing song document");
         Song song = new Song();
         try {
             this.songDocument = new SongDocument(song);
         } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
         if (isHost) {
-            HostEndpoint<Song> hostEndpoint = new ZmqHostEndpoint<Song>(HOST_PORT,
-                    new SongMessageHandlerFactory());
-            //hostEndpoint.addClient("127.0.0.1", CLIENT_PORT);
-            this.endpoint = hostEndpoint;
+            this.endpoint = new ZmqHostEndpoint<Song>(HOST_PORT, DISCOVERY_PORT,
+                    new SongMessageHandlerFactory(), new SessionAuthenticator(password));
         } else {
-            this.endpoint = new ZmqClientEndpoint<Song>(hostAddress, hostPort, CLIENT_PORT,
-                    new SongMessageHandlerFactory());
+            this.endpoint = new ZmqEndpointFactory().buildClientEndpoint(hostAddress, DISCOVERY_PORT, password,
+                    Song.class, new SongMessageHandlerFactory());
+//            this.endpoint = new ZmqClientEndpoint<Song>(hostAddress, hostPort, CLIENT_PORT,
+//                    new SongMessageHandlerFactory());
         }
 
         this.endpoint.openOutboundChannel();
@@ -63,6 +61,7 @@ public class SongController {
         System.out.println("Inbound and outbound channels opened");
         if (isHost) {
             System.out.println("Hosting at " + NetworkUtils.getIpAddress() + ":" + HOST_PORT);
+            System.out.println("Accepting connections at " + NetworkUtils.getIpAddress() + ":" + DISCOVERY_PORT);
         } else {
             System.out.println("Connected to " + hostAddress + ":" + hostPort);
         }
@@ -90,7 +89,7 @@ public class SongController {
     /**
      * Play wrapper method to play {@link messaging.Song.Toot}.
      *
-     * @param toot  the {@code Toot} to play
+     * @param toot the {@code Toot} to play
      */
     public void play(Song.Toot toot) {
         piano.play(toot.getNotes());
