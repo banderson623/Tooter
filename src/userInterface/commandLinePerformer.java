@@ -5,9 +5,7 @@ import instruments.Piano;
 import messaging.Song;
 import util.LibraryUtils;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,6 +68,9 @@ public class commandLinePerformer
 
             System.out.println("Song");
             System.out.println(mySong);
+            System.out.println("Playing song...");
+            mySong.play();
+
         } catch (IOException ioe) {
             System.out.println("IO error trying to read your name!");
             System.exit(1);

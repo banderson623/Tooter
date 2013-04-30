@@ -6,7 +6,6 @@ import instruments.Instrument;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectStreamException;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -21,30 +20,6 @@ public class Song{
     public static SongPlayer playing = null;
     private LinkedList<Toot> toots;
     Long firstTootTime;
-
-    public class SongPlayer implements Runnable {
-        private List<Toot> toots;
-        public SongPlayer(List<Toot> toots) {
-            this.toots = toots;
-        }
-
-        public void run() {
-            Long start = System.currentTimeMillis();
-            Long tootTime = 0L;
-            Iterator<Toot> it = toots.iterator();
-            while(it.hasNext()) {
-                Toot toot = it.next();
-                while(true) {
-                    tootTime = System.currentTimeMillis();
-                    if(tootTime > toot.getTime() + start) {
-                        Session.songController.play(toot);
-                        break;
-                    }
-                }
-            }
-            playing = null;
-        }
-    }
 
     public Song(){
         toots = new LinkedList<Toot>();
@@ -69,20 +44,20 @@ public class Song{
         addToTootOrMakeANewOneForTime(relativeTimeInMilliseconds, oneSingleLonelyNote);
     }
 
-    /**
-     * Responsible for playing the song
-     */
+     // Responsible for playing the song
+    // uses the SongPlayer defined below
     public void play(){
+        List<Toot> myToots;
         synchronized(this) {
             // Copy this locally.
-            final List<Toot> myToots = new LinkedList<Toot>(toots);
-            if(playing == null) {
-                playing = new SongPlayer(myToots);
-                Song.playerExecutor.execute(playing);
-            }
-            else {
-                System.out.println("A song is already playing!");
-            }
+            myToots = new LinkedList<Toot>(toots);
+        } // end synchronization after copy...
+
+        if(playing == null) {
+            playing = new SongPlayer(myToots);
+            Song.playerExecutor.execute(playing);
+        } else {
+            System.out.println("Oops, can't play the song. A song is already playing!");
         }
     }
 
@@ -190,6 +165,39 @@ public class Song{
 
     }
 
+    // Plays the song a separate thread.
+    public class SongPlayer implements Runnable {
+        // List of all the notes to play at set time
+        private List<Toot> toots;
+
+        //Load up the toots in this song
+        public SongPlayer(List<Toot> toots) {
+            this.toots = toots;
+        }
+
+        public void run() {
+
+            // When we start playing the song (on the machine)
+            Long lastTootTime = 0L;
+            for(Toot toot : toots){
+                try
+                {
+                    // Look at the last note time verse next note time...
+                    Long timeToSleep = toot.getTime() - lastTootTime;
+                    //        ... and sleep that long
+                    Thread.sleep(timeToSleep);
+                    // Remember the time I just played
+                    lastTootTime = toot.getTime();
+                    // Play the notes
+                    Session.songController.play(toot);
+                } catch (InterruptedException e){
+                    return;    // can't sleep for some reason?
+                }
+            }
+            // Set the outer class player to null, erase myself?
+            playing = null;
+        }
+    }
 
 
     /**

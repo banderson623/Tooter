@@ -29,11 +29,11 @@ public abstract class InstrumentBase implements Instrument{
         // TODO: do the work of playing the sound file...
         try {
             File soundFile = new File(getPathToSoundKits() + filePath);
-//            System.out.println("sound file " + getPathToSoundKits()  + filePath);  // check the URL!
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundFile);
             Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);
             clip.start();
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }
