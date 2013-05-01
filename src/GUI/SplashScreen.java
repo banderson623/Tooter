@@ -6,6 +6,8 @@ import controller.SongController;
 import util.LibraryUtils;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +18,7 @@ public class SplashScreen extends JPanel {
     private JPanel buttonPanel;
     private JPanel joinPanel;
     private JList<String> ipList = new JList<String>();
+    private JButton joinButton;
 
     static {
         LibraryUtils.setLibraryPath();
@@ -89,6 +92,12 @@ public class SplashScreen extends JPanel {
         // JList to hold the IP's that you may connect to
         ipList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         ipList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+        ipList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                joinButton.setEnabled(true);
+            }
+        });
 
         JScrollPane listScroller = new JScrollPane(ipList);
         listScroller.setPreferredSize(new Dimension(250, 80));
@@ -98,8 +107,9 @@ public class SplashScreen extends JPanel {
         discoverSessions();
 
         // Join Button
-        JButton joinButton = new JButton();
+        joinButton = new JButton();
         joinButton.setText("Join Host");
+        joinButton.setEnabled(false);
         joinButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
