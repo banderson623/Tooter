@@ -1,5 +1,6 @@
 package controller;
 
+import GUI.Session;
 import authentication.SessionAuthenticator;
 import com.digitalxyncing.communication.Endpoint;
 import com.digitalxyncing.communication.impl.ZmqEndpointFactory;
@@ -15,30 +16,21 @@ import java.io.IOException;
 
 public class SongController {
 
-    private static final int HOST_PORT = 5050;
-    private static final int CLIENT_PORT = 4040;
-    private static final int DISCOVERY_PORT = 3030;
+    public static enum Status { INVALID_PASSWORD, ERROR, OK }
+
+    public static final int HOST_PORT = 5050;
+    public static final int DISCOVERY_PORT = 3030;
 
     private SongDocument songDocument;
     private Piano piano = new Piano();
     private boolean isHost = true;
     private Endpoint<Song> endpoint;
-    private String hostAddress;
-    private int hostPort;
 
     public void isHost(boolean isHost) {
         this.isHost = isHost;
     }
 
-    public void setHostAddress(String hostAddress) {
-        this.hostAddress = hostAddress;
-    }
-
-    public void setHostPort(int hostPort) {
-        this.hostPort = hostPort;
-    }
-
-    public void initialize(String password) {
+    public Status initialize(String password) {
         System.out.println("Initializing song document");
         Song song = new Song();
         try {
@@ -50,23 +42,32 @@ public class SongController {
             this.endpoint = new ZmqHostEndpoint<Song>(HOST_PORT, DISCOVERY_PORT,
                     new SongMessageHandlerFactory(), new SessionAuthenticator(password));
         } else {
-            this.endpoint = new ZmqEndpointFactory().buildClientEndpoint(hostAddress, DISCOVERY_PORT, password,
+            this.endpoint = new ZmqEndpointFactory().buildClientEndpoint(Session.ipToConnectTo, DISCOVERY_PORT, password,
                     Song.class, new SongMessageHandlerFactory());
-//            this.endpoint = new ZmqClientEndpoint<Song>(hostAddress, hostPort, CLIENT_PORT,
-//                    new SongMessageHandlerFactory());
+            if (this.endpoint == null) {
+                // The connection was refused
+                return Status.INVALID_PASSWORD;
+            }
+        }
+
+        if (this.endpoint == null) {
+            return Status.ERROR;
         }
 
         this.endpoint.openOutboundChannel();
         this.endpoint.openInboundChannel();
         System.out.println("Inbound and outbound channels opened");
+
         if (isHost) {
             System.out.println("Hosting at " + NetworkUtils.getIpAddress() + ":" + HOST_PORT);
             System.out.println("Accepting connections at " + NetworkUtils.getIpAddress() + ":" + DISCOVERY_PORT);
         } else {
-            System.out.println("Connected to " + hostAddress + ":" + hostPort);
+            System.out.println("Connected to " + Session.ipToConnectTo + ":" + HOST_PORT);
         }
 
         song.start();
+
+        return Status.OK;
     }
 
     /**

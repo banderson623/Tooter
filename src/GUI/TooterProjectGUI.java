@@ -1,12 +1,7 @@
 package GUI;
 
-import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
+import java.awt.*;
 
 public class TooterProjectGUI {
     private JFrame mainFrame;
@@ -36,6 +31,8 @@ public class TooterProjectGUI {
         choosePanel = new ChooseInstrument(cl, mainPanel);
         pianoPanel = new PianoInstrument(cl, mainPanel);
 
+        Session.sessionListeners.add((SessionListener) pianoPanel);
+
         // Add components to the main Panel
         mainPanel.add(splashPanel, "splash");
         mainPanel.add(playPanel, "play");
@@ -43,7 +40,7 @@ public class TooterProjectGUI {
         mainPanel.add(pianoPanel, "piano");
 
         // Beginning page to show
-        cl.show(mainPanel, "piano");
+        cl.show(mainPanel, "splash");
 
         // Add components to the main Frame
         mainFrame.add(mainPanel);

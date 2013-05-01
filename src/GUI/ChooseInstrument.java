@@ -1,31 +1,23 @@
 package GUI;
 
-import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Dimension;
+import controller.SongController;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-
 @SuppressWarnings("serial")
-public class ChooseInstrument extends JPanel{
+public class ChooseInstrument extends JPanel {
     private JPanel titlePanel;
     private JPanel choosePanel;
     private JPanel passwordPanel;
     private JPanel backPanel;
     final private JPasswordField passwordField;
 
-    private String[] instrumentChoices = {"Piano", "Drums", "TurnTable"};
+    private String[] instrumentChoices = {"piano", "drums", "turntable"};
 
-    public ChooseInstrument(final CardLayout cl, final JPanel mainPanel){
+    public ChooseInstrument(final CardLayout cl, final JPanel mainPanel) {
         // Set the size, color and layout of this panel
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setSize(new Dimension(1000, 800));
@@ -49,19 +41,37 @@ public class ChooseInstrument extends JPanel{
 
         // Add dropdown menu with instruments
         final JComboBox<String> comboBox = new JComboBox<String>();
-        for(int i = 0; i < instrumentChoices.length; i++)
+        for (int i = 0; i < instrumentChoices.length; i++)
             comboBox.addItem(instrumentChoices[i]);
         choosePanel.add(comboBox);
 
         // Add Choose button
         JButton chooseButton = new JButton();
         chooseButton.setText("Choose");
-        chooseButton.addActionListener(new ActionListener(){
+        chooseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                cl.show(mainPanel, comboBox.getSelectedItem().toString());
                 String password = String.copyValueOf(passwordField.getPassword());
-                Session.songController.initialize(password);
+                if (password.length() == 0) {
+                    return;
+                }
+                SongController.Status status = Session.songController.initialize(password);
+                switch (status) {
+                    case OK:
+                        if (Session.ipToConnectTo != null) {
+                            for (SessionListener listener : Session.sessionListeners) {
+                                listener.onSessionJoin(Session.ipToConnectTo, SongController.HOST_PORT);
+                            }
+                        }
+                        cl.show(mainPanel, comboBox.getSelectedItem().toString());
+                        break;
+                    case INVALID_PASSWORD:
+                        JOptionPane.showMessageDialog(mainPanel, "Incorrect password!");
+                        break;
+                    case ERROR:
+                        JOptionPane.showMessageDialog(mainPanel, "Something went horribly wrong!");
+                        break;
+                }
             }
         });
         choosePanel.add(chooseButton);
@@ -87,10 +97,11 @@ public class ChooseInstrument extends JPanel{
         // Add back button
         JButton backButton = new JButton();
         backButton.setText("Back");
-        backButton.addActionListener(new ActionListener(){
+        backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Session.songController.terminate();
+                Session.songController.isHost(true);
                 cl.show(mainPanel, "splash");
 
             }

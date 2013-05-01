@@ -9,5 +9,6 @@ public class Session {
 
     public static SongController songController = new SongController();
     public static List<SessionListener> sessionListeners = new ArrayList<SessionListener>();
+    public static String ipToConnectTo;
 
 }
