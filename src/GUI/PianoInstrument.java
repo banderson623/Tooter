@@ -101,16 +101,12 @@ public class PianoInstrument extends JPanel implements SessionListener {
 
                     // Save the song
                     Song song = Session.songController.getDocument().getFullState();
-                    byte[] serializedSong = song.toSerializedString().getBytes();
                     try {
-                        FileOutputStream fos = new FileOutputStream(file);
-                        BufferedOutputStream bos = new BufferedOutputStream(fos);
-                        bos.write(serializedSong);
-                        bos.close();
-                        fos.close();
-                    } catch (FileNotFoundException e1) {
-                        e1.printStackTrace();
-                    } catch (IOException e1) {
+                        FileWriter fstream = new FileWriter(file);
+                        BufferedWriter out = new BufferedWriter(fstream);
+                        out.write(song.toSerializedString());
+                        out.close();
+                    } catch (Exception e1) {//Catch exception if any
                         e1.printStackTrace();
                     }
                 }
