@@ -12,6 +12,7 @@ import messaging.SongFragment;
 import messaging.SongMessageHandlerFactory;
 import util.NetworkUtils;
 
+import java.io.File;
 import java.io.IOException;
 
 public class SongController {
@@ -108,14 +109,11 @@ public class SongController {
         return NetworkUtils.getIpAddress() + ":" + HOST_PORT;
     }
 
-    public void addClient(String address, int port) {
-        if (isHost) {
-            ((ZmqHostEndpoint<Song>) endpoint).addClient(address, port);
-        }
-    }
-
     public SongDocument getDocument() {
         return songDocument;
+    }
+
+    public void save(File file) {
     }
 
 }
