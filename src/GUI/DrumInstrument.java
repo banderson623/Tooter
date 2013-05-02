@@ -17,7 +17,7 @@ import java.awt.event.ActionListener;
 public class DrumInstrument extends AbstractInstrument {
 
 
-    private instruments.DrumMachine drums;
+    private instruments.Drums drums;
 
 
     private String[] keys = {"Crash", "Hi-Tom", "Kick", "Low-Tom", "Snare"};
