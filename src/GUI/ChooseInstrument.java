@@ -1,6 +1,8 @@
 package GUI;
 
 import controller.SongController;
+import instruments.Instrument;
+import instruments.InstrumentFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,10 +16,16 @@ public class ChooseInstrument extends JPanel {
     private JPanel passwordPanel;
     private JPanel backPanel;
     final private JPasswordField passwordField;
-
-    private String[] instrumentChoices = {"piano", "drums", "turntable"};
+    private List<String> instrumentChoices;
 
     public ChooseInstrument(final CardLayout cl, final JPanel mainPanel) {
+        for(Class instrument : InstrumentFactory.getListOfInstruments(){
+            instrument.newInstance();
+            instrumentChoices.add();
+        }
+
+        instrumentChoices =
+
         // Set the size, color and layout of this panel
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setSize(new Dimension(1000, 800));

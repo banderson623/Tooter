@@ -13,10 +13,11 @@ import java.util.List;
  */
 public class InstrumentFactory {
 
-//    public InstrumentFactory(){
-//
-//    }
-
+    /**
+     * Static method
+     * Returns a list of instrument classes.
+     * @return
+     */
     public static List<Class> getListOfInstruments(){
         List<Class> instruments = new ArrayList<Class>();
 
@@ -34,7 +35,6 @@ public class InstrumentFactory {
 
         for(File file : files){
             String className = file.getName().replace(".java", "");
-            System.out.println("Class: " + className);
             try
             {
                 Class instrument = Class.forName(packageName + "." + className);
@@ -45,10 +45,7 @@ public class InstrumentFactory {
                     }
                 }
 
-            } catch (ClassNotFoundException e)
-            {
-                System.out.println("...can't load");
-//                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (ClassNotFoundException ignored){
             }
         }
 
