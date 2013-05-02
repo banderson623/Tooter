@@ -15,7 +15,7 @@ public class ChooseInstrument extends JPanel {
     private JPanel backPanel;
     final private JPasswordField passwordField;
 
-    private String[] instrumentChoices = {"piano", "drums", "guitar"};
+    private String[] instrumentChoices = {"piano", "drums", "guitar", "8bit"};
 
     public ChooseInstrument(final CardLayout cl, final JPanel mainPanel) {
         // Set the size, color and layout of this panel
