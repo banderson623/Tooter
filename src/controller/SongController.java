@@ -12,7 +12,6 @@ import messaging.SongFragment;
 import messaging.SongMessageHandlerFactory;
 import util.NetworkUtils;
 
-import java.io.File;
 import java.io.IOException;
 
 public class SongController {
@@ -137,9 +136,6 @@ public class SongController {
 
     public SongDocument getDocument() {
         return songDocument;
-    }
-
-    public void save(File file) {
     }
 
 }
