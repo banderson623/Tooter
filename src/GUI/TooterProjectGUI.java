@@ -44,7 +44,7 @@ public class TooterProjectGUI {
         mainPanel.add(choosePanel, "choose");
         mainPanel.add(pianoPanel, "piano");
         mainPanel.add(guitarPanel, "guitar");
-        drumPanel.add(drumPanel, "drums");
+        mainPanel.add(drumPanel, "drums");
 
         // Beginning page to show
         cl.show(mainPanel, "splash");
