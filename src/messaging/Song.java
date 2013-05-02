@@ -178,7 +178,8 @@ public class Song{
         public void run() {
 
             // When we start playing the song (on the machine)
-            Long lastTootTime = 0L;
+            // Changed so that playback starts right away.
+            Long lastTootTime = toots.get(0).getTime();
             for(Toot toot : toots){
                 try
                 {
@@ -195,6 +196,7 @@ public class Song{
                 }
             }
             // Set the outer class player to null, erase myself?
+            // Do I need to sync here? This is odd code...
             playing = null;
         }
     }
