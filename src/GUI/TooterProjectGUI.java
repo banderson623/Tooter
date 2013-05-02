@@ -13,6 +13,7 @@ public class TooterProjectGUI {
     private JPanel pianoPanel;
     private JPanel drumPanel;
     private JPanel guitarPanel;
+    private JPanel eightBitPanel;
 
     public TooterProjectGUI(){
         // Initialize main frames & panels
@@ -34,9 +35,13 @@ public class TooterProjectGUI {
         pianoPanel = new PianoInstrument(cl, mainPanel);
         drumPanel = new DrumInstrument(cl, mainPanel);
         guitarPanel = new GuitarInstrument(cl, mainPanel);
-
+        eightBitPanel = new EightBitInstrument(cl, mainPanel);
 
         Session.sessionListeners.add((SessionListener) pianoPanel);
+        Session.sessionListeners.add((SessionListener) guitarPanel);
+        Session.sessionListeners.add((SessionListener) drumPanel);
+        Session.sessionListeners.add((SessionListener) eightBitPanel);
+
 
         // Add components to the main Panel
         mainPanel.add(splashPanel, "splash");
@@ -45,6 +50,7 @@ public class TooterProjectGUI {
         mainPanel.add(pianoPanel, "piano");
         mainPanel.add(guitarPanel, "guitar");
         mainPanel.add(drumPanel, "drums");
+        mainPanel.add(eightBitPanel, "8bit");
 
         // Beginning page to show
         cl.show(mainPanel, "splash");

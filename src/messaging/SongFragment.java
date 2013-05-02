@@ -1,8 +1,7 @@
 package messaging;
 
 import com.digitalxyncing.document.impl.DocumentFragment;
-import instruments.Instrument;
-import instruments.Piano;
+import instruments.*;
 
 /**
  * Represents a fragment of a {@link SongDocument}. For now, this is merely a single note of a song but it could be
@@ -23,6 +22,21 @@ public class SongFragment extends DocumentFragment<Song> {
             Piano piano = new Piano();
             String name = fragmentString.substring(fragmentString.indexOf("/") + 1, fragmentString.indexOf("."));
             this.note = piano.getNoteByName(name);
+            this.data = note.getFileName().getBytes();
+        } else if (fragmentString.startsWith("drums")) {
+            Drums drums = new Drums();
+            String name = fragmentString.substring(fragmentString.indexOf("/") + 1, fragmentString.indexOf("."));
+            this.note = drums.getNoteByName(name);
+            this.data = note.getFileName().getBytes();
+        } else if (fragmentString.startsWith("guitar")) {
+            Guitar guitar = new Guitar();
+            String name = fragmentString.substring(fragmentString.indexOf("/") + 1, fragmentString.indexOf("."));
+            this.note = guitar.getNoteByName(name);
+            this.data = note.getFileName().getBytes();
+        } else if (fragmentString.startsWith("gameboy")) {
+            Gameboy gameboy = new Gameboy();
+            String name = fragmentString.substring(fragmentString.indexOf("/") + 1, fragmentString.indexOf("."));
+            this.note = gameboy.getNoteByName(name);
             this.data = note.getFileName().getBytes();
         } else {
             System.out.println("Unrecognized note " + fragmentString);
