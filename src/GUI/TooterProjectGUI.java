@@ -54,7 +54,7 @@ public class TooterProjectGUI {
 
         // Add components to the main Panel
         mainPanel.add(splashPanel, "splash");
-        mainPanel.add(playPanel,    "play");
+        mainPanel.add(playPanel,   "play");
         mainPanel.add(choosePanel, "choose");
 
         // Beginning page to show

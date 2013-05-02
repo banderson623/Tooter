@@ -25,12 +25,23 @@ public abstract class AbstractInstrument extends JPanel implements SessionListen
     protected char[] keyboardKeysToUse = {'a','s','d','f','g','h','j','k'};
     protected Instrument instrumentToPlay;
     final JPanel mainPanel;
+    // This holds the Instrument class type
     private AbstractInstrument thisInstrument;
+
+    // Holds the action map, to map key board presses to actions.
+    protected ActionMap keyboardActionMap;
+    protected InputMap  keyboardInputMap;
+
 
     // is the instrument playbable now?
     protected boolean enabled;
 
-
+    /**
+     * Constructor, sets up all the graphical elements and actions to take
+     * When pressed
+     * @param cl this is the card Layout
+     * @param mainPanel the main panel for all of this
+     */
     public AbstractInstrument(final CardLayout cl, final JPanel mainPanel){
         // Set the layout, size, and color of each instrument
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -43,6 +54,10 @@ public abstract class AbstractInstrument extends JPanel implements SessionListen
         // Set default to piano
         instrumentToPlay = new instruments.Piano();
 
+
+        // Set up the keyboard mapping stubs
+        keyboardActionMap = new ActionMap();
+        keyboardInputMap = new ComponentInputMap(mainPanel);
         // remove keyboard events, from last instrument?
         // I wish Java had a destructor....
 //        cleanUpKeyBindings();
@@ -80,7 +95,7 @@ public abstract class AbstractInstrument extends JPanel implements SessionListen
             @Override
             public void actionPerformed(ActionEvent e) {
                 cl.show(mainPanel, "choose");
-                ChosenInstrument.instrumentChosen = "";
+//                ChosenInstrument.instrumentChosen = "";
             }
         });
         backPanel.add(backButton);
@@ -98,6 +113,21 @@ public abstract class AbstractInstrument extends JPanel implements SessionListen
         mainPanel.getInputMap().clear();
     }
 
+    /**
+     * Set up any things that need to get setup when this instrument is activated
+     */
+    protected void activateInstrument(){
+        System.out.println("Setting up... " + this.instrumentToPlay.getName());
+        for(KeyStroke k : this.keyboardInputMap.allKeys()){
+            System.out.println("Mapping: " + k + " to: " + this.keyboardInputMap.get(k));
+            getInputMap().put(k,this.keyboardInputMap.get(k));
+        }
+        for(Object keyForAction : this.keyboardActionMap.allKeys()){
+            System.out.println("Setting up action: " + keyForAction + " to: " + this.keyboardActionMap.get(keyForAction));
+            getActionMap().put(keyForAction,this.keyboardActionMap.get(keyForAction));
+        }
+    }
+
 
 
     protected void setUpListenersForNoteForKeyAtIndex(
@@ -105,26 +135,37 @@ public abstract class AbstractInstrument extends JPanel implements SessionListen
                                          final JButton key,
                                          final String noteName)
     {
-        // going to reuse this.. moved it out :)
+        // Hacking this in. Make sure the key can not gain focus
+        key.setFocusable(false);
+
+        // This defines the action to take when the button is pressed
+        // ... we also are mapping keys to this
         AbstractAction buttonPressed = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                if(thisInstrument.getInstrumentType().equals(ChosenInstrument.instrumentChosen)){
                     SongFragment fragment = new SongFragment(instrumentToPlay.getNoteByName(noteName));
                     Session.songController.play(fragment, true);
-                }
             }
         };
-
+        System.out.println(this.instrumentToPlay.getName() + " " + noteName + " action: " + buttonPressed);
+        // given the button, attach the action
         key.addActionListener(buttonPressed);
 
-        // If we are less than the home row, then add a keyboard listening too
+        // Now we are also going to try and attach the
+        // keyboard (on the computer) the home row keys to be able to play
+        // and instrument here too.
         if(i < keyboardKeysToUse.length){
-            String keyboardKeyKey = "key_" + keyboardKeysToUse[i];
+            // This is the map from the key to the action
+            String keyboardKeyKey = "key_"+ keyboardKeysToUse[i];
+            System.out.println("key: " + keyboardKeyKey);
+
+            // NOTE: this is built now, but swapped out when the instrument panel is activated in
+            // the call to activateInstrument();
+            // -----------------------------------------------------------------------------------
             // Register this key down input, to trigger an action in the map...
-            mainPanel.getInputMap().put(KeyStroke.getKeyStroke(keyboardKeysToUse[i]),keyboardKeyKey);
-            // define the map's action here...
-            mainPanel.getActionMap().put(keyboardKeyKey,buttonPressed);
+            keyboardInputMap.put(KeyStroke.getKeyStroke(keyboardKeysToUse[i]), keyboardKeyKey);
+            // ....define the map's action here
+            keyboardActionMap.put(keyboardKeyKey,buttonPressed);
         }
     }
 
@@ -145,11 +186,6 @@ public abstract class AbstractInstrument extends JPanel implements SessionListen
             }
         });
     }
-
-//    public void setEnable(boolean isEnabled){
-//        this.enabled = isEnabled;
-//    }
-
 
     public abstract String getInstrumentType();
 

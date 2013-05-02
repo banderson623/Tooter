@@ -7,6 +7,6 @@ package GUI;
  * Time: 9:48 AM
  * To change this template use File | Settings | File Templates.
  */
-public class ChosenInstrument {
-    protected static String instrumentChosen;
-}
+//public class ChosenInstrument {
+//    protected static String instrumentChosen;
+//}
