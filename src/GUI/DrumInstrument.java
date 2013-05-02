@@ -27,7 +27,7 @@ public class DrumInstrument extends AbstractInstrument {
         super(cl, mainPanel);
 
         // Instantiate the instrument
-        this.drums = new instruments.DrumMachine();
+        this.drums = new instruments.Drums();
 
         // Add image to the image panel
         JLabel instrumentsLabel = new JLabel();
