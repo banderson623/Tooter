@@ -1,5 +1,6 @@
 package GUI;
 
+import com.sun.deploy.panel.JavaPanel;
 import instruments.Instrument;
 import messaging.SongFragment;
 
@@ -8,6 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
+import java.util.Timer;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,6 +19,12 @@ import java.util.*;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class AbstractInstrument extends JPanel implements SessionListener{
+
+    // What is the narrowest we will let a button be?
+    protected final static int minimumButtonWidth = 75;
+
+    private final static ImageIcon notePlayingLed = new ImageIcon("Resources/images/led-on.jpg");
+    private final static ImageIcon noteSilentLed =  new ImageIcon("Resources/images/led-off.jpg");
 
     protected JPanel titlePanel;
     protected JPanel buttonPanel;
@@ -170,11 +178,11 @@ public abstract class AbstractInstrument extends JPanel implements SessionListen
      * This is a generic version, we can do lots of things here
      */
     public void addNotesToButtonPanel(){
-        int minimumButtonSize = 75;
 
-        int buttonWidth = 800 / notesForButtons.size();
-        if(buttonWidth < minimumButtonSize){
-            buttonWidth = minimumButtonSize;
+                           // there is some padding factor...
+        int buttonWidth = (buttonPanel.getWidth() - 100) / notesForButtons.size();
+        if(buttonWidth < minimumButtonWidth){
+            buttonWidth = minimumButtonWidth;
         }
         ArrayList<String> supportedNoteNames = new ArrayList<String>(15);
         for(Instrument.Note note : this.instrumentToPlay.getSupportedNotes()){
@@ -187,20 +195,38 @@ public abstract class AbstractInstrument extends JPanel implements SessionListen
         for(String buttonAndNoteName: notesForButtons){
             // If this is a real note name for the instrument
             if(supportedNoteNames.contains(buttonAndNoteName)){
-                // Build the button
+
+                // Fun grid constraints!
+                GridBagConstraints gbc = new GridBagConstraints ();
+                // place the components top-to-bottom, rather than left-to-right
+                gbc.gridx = 0;
+                gbc.gridy = GridBagConstraints.RELATIVE;
+
+                //Note LED, lit up when toggled, returns to off state after key stroke.
+                JLabel notePlayingLedLabel = new JLabel();
+                notePlayingLedLabel.setIcon(noteSilentLed);
+
+                // Build the button in special indicator :)
+                final JPanel noteAndIndicator = new JPanel();
+                             noteAndIndicator.setBackground(Color.WHITE);
+                             noteAndIndicator.setLayout(new GridBagLayout());
+
                 final JButton key = new JButton(buttonAndNoteName);
 
-                // So generic had to move it here.
                 key.setBackground(Color.WHITE);
 
                 // Sized based on the number of notes??
-                key.setPreferredSize(new Dimension(buttonWidth, 200));
+                key.setPreferredSize(new Dimension(buttonWidth, 175));
 
                 // Now attach the events to these buttons
-                setUpListenersForNoteForKeyAtIndex(i, key, buttonAndNoteName);
+                setUpListenersForNoteForKeyAtIndex(i, key, buttonAndNoteName,notePlayingLedLabel);
+
+                noteAndIndicator.add(notePlayingLedLabel,gbc);
+                noteAndIndicator.add(key,gbc);
+                buttonPanel.add(noteAndIndicator);
 
                 // Finally add it into the panel.
-                buttonPanel.add(key);
+//                buttonPanel.add(key);
                 i++;
             }
         }
@@ -209,7 +235,8 @@ public abstract class AbstractInstrument extends JPanel implements SessionListen
     protected void setUpListenersForNoteForKeyAtIndex(
                                          int i,
                                          final JButton key,
-                                         final String noteName)
+                                         final String noteName,
+                                         final JLabel ledIndicator)
     {
         // Hacking this in. Make sure the key can not gain focus
         key.setFocusable(false);
@@ -221,8 +248,17 @@ public abstract class AbstractInstrument extends JPanel implements SessionListen
         AbstractAction buttonPressed = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                    SongFragment fragment = new SongFragment(instrumentToPlay.getNoteByName(noteName));
-                    Session.songController.play(fragment, true);
+                SongFragment fragment = new SongFragment(instrumentToPlay.getNoteByName(noteName));
+                Session.songController.play(fragment, true);
+                ledIndicator.setIcon(notePlayingLed);
+                javax.swing.Timer returnButtonToOffState = new javax.swing.Timer(150, new ActionListener() {
+                    public void actionPerformed(ActionEvent arg0) {
+                        ledIndicator.setIcon(noteSilentLed);
+                    }
+                });
+                // Only execute once
+                returnButtonToOffState.setRepeats(false);
+                returnButtonToOffState.start();
             }
         };
         System.out.println(this.instrumentToPlay.getName() + " " + noteName + " action: " + buttonPressed);
