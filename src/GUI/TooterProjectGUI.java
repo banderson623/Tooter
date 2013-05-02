@@ -11,6 +11,8 @@ public class TooterProjectGUI {
     private JPanel playPanel;
     private JPanel choosePanel;
     private JPanel pianoPanel;
+    private JPanel drumPanel;
+    private JPanel guitarPanel;
 
     public TooterProjectGUI(){
         // Initialize main frames & panels
@@ -30,6 +32,9 @@ public class TooterProjectGUI {
         playPanel = new PlaySongScreen(cl, mainPanel);
         choosePanel = new ChooseInstrument(cl, mainPanel);
         pianoPanel = new PianoInstrument(cl, mainPanel);
+        drumPanel = new DrumInstrument(cl, mainPanel);
+        guitarPanel = new GuitarInstrument(cl, mainPanel);
+
 
         Session.sessionListeners.add((SessionListener) pianoPanel);
 
@@ -38,6 +43,8 @@ public class TooterProjectGUI {
         mainPanel.add(playPanel, "play");
         mainPanel.add(choosePanel, "choose");
         mainPanel.add(pianoPanel, "piano");
+        mainPanel.add(guitarPanel, "guitar");
+        drumPanel.add(drumPanel, "drums");
 
         // Beginning page to show
         cl.show(mainPanel, "splash");
