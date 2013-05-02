@@ -23,7 +23,7 @@ public class EightBitInstrument extends AbstractInstrument {
         // Add image to the image panel
         JLabel instrumentsLabel = new JLabel();
         instrumentsLabel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-        instrumentsLabel.setIcon(new ImageIcon("Resources/images/guitartitle.jpg"));
+        instrumentsLabel.setIcon(new ImageIcon("Resources/images/8bittitle.jpg"));
         titlePanel.add(instrumentsLabel);
 
 
@@ -40,5 +40,10 @@ public class EightBitInstrument extends AbstractInstrument {
 
         // add components
         this.addComponents();
+    }
+
+    @Override
+    public String getInstrumentType() {
+        return "8bit";
     }
 }

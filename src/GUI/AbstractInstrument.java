@@ -25,6 +25,7 @@ public abstract class AbstractInstrument extends JPanel implements SessionListen
     protected char[] keyboardKeysToUse = {'a','s','d','f','g','h','j','k'};
     protected Instrument instrumentToPlay;
     final JPanel mainPanel;
+    private AbstractInstrument thisInstrument;
 
     // is the instrument playbable now?
     protected boolean enabled;
@@ -37,6 +38,7 @@ public abstract class AbstractInstrument extends JPanel implements SessionListen
         this.setBackground(Color.WHITE);
 
         this.mainPanel = mainPanel;
+        this.thisInstrument =  this;
 
         // Set default to piano
         instrumentToPlay = new instruments.Piano();
@@ -78,6 +80,7 @@ public abstract class AbstractInstrument extends JPanel implements SessionListen
             @Override
             public void actionPerformed(ActionEvent e) {
                 cl.show(mainPanel, "choose");
+                ChosenInstrument.instrumentChosen = "";
             }
         });
         backPanel.add(backButton);
@@ -106,7 +109,7 @@ public abstract class AbstractInstrument extends JPanel implements SessionListen
         AbstractAction buttonPressed = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                if(isVisible()){
+                if(thisInstrument.getInstrumentType().equals(ChosenInstrument.instrumentChosen)){
                     SongFragment fragment = new SongFragment(instrumentToPlay.getNoteByName(noteName));
                     Session.songController.play(fragment, true);
                 }
@@ -143,9 +146,11 @@ public abstract class AbstractInstrument extends JPanel implements SessionListen
         });
     }
 
-    public void setEnable(boolean isEnabled){
-        this.enabled = isEnabled;
-    }
+//    public void setEnable(boolean isEnabled){
+//        this.enabled = isEnabled;
+//    }
 
+
+    public abstract String getInstrumentType();
 
 }

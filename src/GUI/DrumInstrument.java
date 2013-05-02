@@ -45,4 +45,9 @@ public class DrumInstrument extends AbstractInstrument {
         // add components
         this.addComponents();
     }
+
+    @Override
+    public String getInstrumentType() {
+        return "drums";
+    }
 }

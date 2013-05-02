@@ -74,8 +74,9 @@ public class ChooseInstrument extends JPanel {
                             }
                         }
                         // Yikes!
-                        buildAndShowSelectedInstrument(cl,mainPanel,comboBox.getSelectedItem().toString());
-//                        cl.show(mainPanel, comboBox.getSelectedItem().toString());
+                        //buildAndShowSelectedInstrument(cl,mainPanel,comboBox.getSelectedItem().toString());
+                        cl.show(mainPanel, comboBox.getSelectedItem().toString());
+                        ChosenInstrument.instrumentChosen = comboBox.getSelectedItem().toString();
                         break;
                     case INVALID_PASSWORD:
                         JOptionPane.showMessageDialog(mainPanel, "Incorrect password!");
@@ -126,21 +127,21 @@ public class ChooseInstrument extends JPanel {
         this.add(backPanel);
     }
 
-    protected void buildAndShowSelectedInstrument(final CardLayout cl,
-                                                  final JPanel mainPanel,
-                                                  String instrumentName){
-
-//        Component[] comps = mainPanel.getComponents();
-//        for(int i = 0; i < comps.length; i++){
-//            if(comps[i].getName() != null){
-//                if(comps[i].getName().equals(instrumentName)){
-//                    comps[i].setEnabled(true);
-//                } else {
-//                    comps[i].setEnabled(false);
-//                }
-//            }
-//        }
-        cl.show(mainPanel, instrumentName);
-    }
+//    protected void buildAndShowSelectedInstrument(final CardLayout cl,
+//                                                  final JPanel mainPanel,
+//                                                  String instrumentName){
+//
+////        Component[] comps = mainPanel.getComponents();
+////        for(int i = 0; i < comps.length; i++){
+////            if(comps[i].getName() != null){
+////                if(comps[i].getName().equals(instrumentName)){
+////                    comps[i].setEnabled(true);
+////                } else {
+////                    comps[i].setEnabled(false);
+////                }
+////            }
+////        }
+//        cl.show(mainPanel, instrumentName);
+//    }
 
 }

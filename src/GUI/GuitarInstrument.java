@@ -44,8 +44,10 @@ public class GuitarInstrument extends AbstractInstrument {
         this.addComponents();
     }
 
-
-
+    @Override
+    public String getInstrumentType() {
+        return "guitar";
+    }
 
 
 }

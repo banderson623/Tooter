@@ -36,4 +36,9 @@ public class PianoInstrument extends AbstractInstrument {
         // add components
         this.addComponents();
     }
+
+    @Override
+    public String getInstrumentType() {
+        return "piano";
+    }
 }
