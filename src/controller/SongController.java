@@ -27,12 +27,35 @@ public class SongController {
     private boolean isHost = true;
     private Endpoint<Song> endpoint;
 
+    private boolean hasBeenInitialized = false;
+
     public void isHost(boolean isHost) {
         this.isHost = isHost;
     }
 
+    // This is encountered when we hit the back button,
+    // same session and we don't need to initialize
+    public Status initializeOrUseExisting(String password){
+        Status status = Status.OK;
+        if(!hasBeenInitialized){
+            status = initialize(password);
+        } else {
+            // nothing?
+        }
+        return status;
+    }
+
     public Status initialize(String password) {
+
+
+        // Brian added...
+        // if the password is null, blank, empty then use default
+        if(password.length() == 0){
+            password = "default"; // this just makes it easier for testing
+        }
+
         System.out.println("Initializing song document");
+
         Song song = new Song();
         try {
             this.songDocument = new SongDocument(song);
@@ -68,6 +91,8 @@ public class SongController {
 
         song.start();
 
+        hasBeenInitialized = true;
+
         return Status.OK;
     }
 
@@ -101,6 +126,7 @@ public class SongController {
         if (endpoint != null) {
             endpoint.closeInboundChannel();
             endpoint.closeOutboundChannel();
+            hasBeenInitialized = false;
             System.out.println("Channels closed");
         }
     }

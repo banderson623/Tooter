@@ -47,15 +47,22 @@ public class ChooseInstrument extends JPanel {
 
         // Add Choose button
         JButton chooseButton = new JButton();
-        chooseButton.setText("Choose");
+        chooseButton.setText("Play with this instrument");
         chooseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String password = String.copyValueOf(passwordField.getPassword());
                 if (password.length() == 0) {
-                    return;
+
+                    //use default password - Brian added. Passwords are just annoying now..
+                    password = "default";
+
+                    // If you don't want this then we should add
+                    // JOptionPane.showMessageDialog(mainPanel, "Please enter a password");
                 }
-                SongController.Status status = Session.songController.initialize(password);
+                // We have a problem here.
+
+                SongController.Status status = Session.songController.initializeOrUseExisting(password); //initialize(password);
                 switch (status) {
                     case OK:
                         if (Session.ipToConnectTo != null) {
