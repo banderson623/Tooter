@@ -1,33 +1,38 @@
 package GUI;
 
-import messaging.Song;
 import messaging.SongFragment;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
 
-public class PianoInstrument extends AbstractInstrument {
+/**
+ * Created with IntelliJ IDEA.
+ * User: Tae Kim
+ * Date: 5/2/13
+ * Time: 12:41 AM
+ * To change this template use File | Settings | File Templates.
+ */
+public class GuitarInstrument extends AbstractInstrument {
 
 
-    private instruments.Piano piano;
+    private instruments.Guitar guitar;
 
 
-    private String[] keys = {"A", "B", "C", "D", "E", "F", "G"};
+    private String[] keys = {"E1", "B", "G", "D", "A", "E2"};
 
-    public PianoInstrument(final CardLayout cl, final JPanel mainPanel) {
+    public GuitarInstrument(final CardLayout cl, final JPanel mainPanel) {
         // Call Abstract Instrument's constructor
         super(cl, mainPanel);
 
         // Instantiate the instrument
-        this.piano = new instruments.Piano();
+        this.guitar = new instruments.Guitar();
 
-         // Add image to the image panel
+        // Add image to the image panel
         JLabel instrumentsLabel = new JLabel();
         instrumentsLabel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-        instrumentsLabel.setIcon(new ImageIcon("Resources/images/pianotitle.jpg"));
+        instrumentsLabel.setIcon(new ImageIcon("Resources/images/guitartitle.jpg"));
         titlePanel.add(instrumentsLabel);
 
 
@@ -39,7 +44,7 @@ public class PianoInstrument extends AbstractInstrument {
             key.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent arg0) {
-                    SongFragment fragment = new SongFragment(piano.getNoteByName(key.getText()));
+                    SongFragment fragment = new SongFragment(guitar.getNoteByName(key.getText()));
                     Session.songController.play(fragment, true);
                 }
             });
