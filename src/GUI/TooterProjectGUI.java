@@ -44,10 +44,10 @@ public class TooterProjectGUI {
         instrumentPanels.put("piano",  new PianoInstrument(cl, mainPanel));
         instrumentPanels.put("drums",  new DrumInstrument(cl, mainPanel));
         instrumentPanels.put("guitar", new GuitarInstrument(cl, mainPanel));
-        instrumentPanels.put("8bit",   new EightBitInstrument(cl, mainPanel));
+        instrumentPanels.put("8bit", new EightBitInstrument(cl, mainPanel));
 
         for(String name : instrumentPanels.keySet()){
-            Session.sessionListeners.add((SessionListener) instrumentPanels.get(name));
+            Session.sessionListeners.add(instrumentPanels.get(name));
             instrumentPanels.get(name).setName(name);
             mainPanel.add(instrumentPanels.get(name),name);
         }
