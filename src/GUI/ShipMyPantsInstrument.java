@@ -1,25 +1,24 @@
 package GUI;
 
+
 import javax.swing.*;
 import java.awt.*;
 
 /**
  * Created with IntelliJ IDEA.
- * User: Tae Kim
+ * User: brian_anderson
  * Date: 5/2/13
- * Time: 12:21 AM
+ * Time: 2:06 PM
  * To change this template use File | Settings | File Templates.
  */
-public class DrumInstrument extends AbstractInstrument {
+public class ShipMyPantsInstrument extends AbstractInstrument {
 
-
-
-    public DrumInstrument(final CardLayout cl, final JPanel mainPanel) {
+    public ShipMyPantsInstrument(final CardLayout cl, final JPanel mainPanel) {
         // Call Abstract Instrument's constructor
         super(cl, mainPanel);
 
         // Instantiate the instrument
-        this.instrumentToPlay = new instruments.Drums();
+        this.instrumentToPlay = new instruments.Kmart();
 
         // Build these lovely notes after inspecting the instrument
         setupNotesForThisInstrument();
@@ -27,7 +26,6 @@ public class DrumInstrument extends AbstractInstrument {
         // Add image to the image panel
         JLabel instrumentsLabel = new JLabel();
         instrumentsLabel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-        instrumentsLabel.setIcon(new ImageIcon("Resources/images/drumtitle.jpg"));
         titlePanel.add(instrumentsLabel);
 
 
@@ -40,6 +38,6 @@ public class DrumInstrument extends AbstractInstrument {
 
     @Override
     public String getInstrumentType() {
-        return "drums";
+        return "kmart";
     }
 }

@@ -1,17 +1,15 @@
 package GUI;
 
 import instruments.Gameboy;
+import instruments.Instrument;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class EightBitInstrument extends AbstractInstrument {
 
-
-
-
-    private String[] keys = {"GBA-SP BD1", "GBA-SP BD2", "GBA-SP BD3", "GBA-SP BD4", "GBA-SP Clap", "GBA-SP Perc1",
-            "GBA-SP Perc2", "GBA-SP Perc3", "GBA-SP SD1", "GBA-SP SD2"};
 
     public EightBitInstrument(final CardLayout cl, final JPanel mainPanel) {
         // Call Abstract Instrument's constructor
@@ -20,27 +18,24 @@ public class EightBitInstrument extends AbstractInstrument {
         // Instantiate the instrument
         this.instrumentToPlay = new Gameboy();
 
+        // Build these lovely notes after inspecting the instrument
+        setupNotesForThisInstrument();
+
         // Add image to the image panel
         JLabel instrumentsLabel = new JLabel();
         instrumentsLabel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
         instrumentsLabel.setIcon(new ImageIcon("Resources/images/8bittitle.jpg"));
         titlePanel.add(instrumentsLabel);
 
+        // Now we can add the prebuild notes to the instrument gui
+        addNotesToButtonPanel();
 
-        // Create buttons for the instrument
-        for (int i = 0; i < keys.length; i++) {
-            final JButton key = new JButton(keys[i]);
-            key.setPreferredSize(new Dimension(75, 200));
-            key.setBackground(Color.WHITE);
-
-            setUpListenersForNoteForKeyAtIndex(i, key, keys[i]);
-
-            buttonPanel.add(key);
-        }
 
         // add components
         this.addComponents();
     }
+
+
 
     @Override
     public String getInstrumentType() {

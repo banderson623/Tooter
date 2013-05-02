@@ -15,7 +15,7 @@ public class ChooseInstrument extends JPanel {
     private JPanel passwordPanel;
     private JPanel backPanel;
     final private JPasswordField passwordField;
-    private String[] instrumentChoices = {"piano", "drums", "guitar", "8bit"};
+    private String[] instrumentChoices = {"piano", "drums", "guitar", "8bit", "kmart"};
 
 
 
@@ -60,7 +60,6 @@ public class ChooseInstrument extends JPanel {
 
                     //use default password - Brian added. Passwords are just annoying now..
                     password = "default";
-
                     // If you don't want this then we should add
                     // JOptionPane.showMessageDialog(mainPanel, "Please enter a password");
                 }

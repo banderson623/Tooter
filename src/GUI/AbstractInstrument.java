@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -31,6 +32,11 @@ public abstract class AbstractInstrument extends JPanel implements SessionListen
     // Holds the action map, to map key board presses to actions.
     protected ActionMap keyboardActionMap;
     protected InputMap  keyboardInputMap;
+
+    // Holds the notes, inpsected from the instrument,
+    // used to build the GUI later
+    protected ArrayList<String> notesForButtons;
+
 
 
     // is the instrument playbable now?
@@ -128,7 +134,77 @@ public abstract class AbstractInstrument extends JPanel implements SessionListen
         }
     }
 
+    /**
+     *
+     * Inspects the instrument for this interface
+     * and will automatically setup the keys for it.
+     */
+    public void setupNotesForThisInstrument(){
 
+        notesForButtons = new ArrayList<String>();
+        // Make sure we have an instrument here
+        if(this.instrumentToPlay != null){
+            // Now get all the supported notes
+            for(Instrument.Note note : this.instrumentToPlay.getSupportedNotes()){
+                // Put them in the list of buttons to make
+                notesForButtons.add(note.name());
+            }
+        }
+    }
+
+    /**
+     * This can be used to pass in a list of notes
+     *
+     * @param notes
+     */
+    public void setupNotesForThisInstrument(String[] notes){
+        notesForButtons = new ArrayList<String>();
+        // Note does not check if it is a legit note here..
+        for(int i = 0; i < notes.length; i++)
+        {
+            notesForButtons.add(notes[i]);
+        }
+    }
+
+    /**
+     * This is a generic version, we can do lots of things here
+     */
+    public void addNotesToButtonPanel(){
+        int minimumButtonSize = 75;
+
+        int buttonWidth = 800 / notesForButtons.size();
+        if(buttonWidth < minimumButtonSize){
+            buttonWidth = minimumButtonSize;
+        }
+        ArrayList<String> supportedNoteNames = new ArrayList<String>(15);
+        for(Instrument.Note note : this.instrumentToPlay.getSupportedNotes()){
+            supportedNoteNames.add(note.name());
+        }
+
+
+        // Create buttons for the instrument
+        int i = 0;
+        for(String buttonAndNoteName: notesForButtons){
+            // If this is a real note name for the instrument
+            if(supportedNoteNames.contains(buttonAndNoteName)){
+                // Build the button
+                final JButton key = new JButton(buttonAndNoteName);
+
+                // So generic had to move it here.
+                key.setBackground(Color.WHITE);
+
+                // Sized based on the number of notes??
+                key.setPreferredSize(new Dimension(buttonWidth, 200));
+
+                // Now attach the events to these buttons
+                setUpListenersForNoteForKeyAtIndex(i, key, buttonAndNoteName);
+
+                // Finally add it into the panel.
+                buttonPanel.add(key);
+                i++;
+            }
+        }
+    }
 
     protected void setUpListenersForNoteForKeyAtIndex(
                                          int i,
@@ -137,6 +213,8 @@ public abstract class AbstractInstrument extends JPanel implements SessionListen
     {
         // Hacking this in. Make sure the key can not gain focus
         key.setFocusable(false);
+
+
 
         // This defines the action to take when the button is pressed
         // ... we also are mapping keys to this

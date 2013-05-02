@@ -12,7 +12,7 @@ import java.awt.*;
  */
 public class GuitarInstrument extends AbstractInstrument {
 
-    private String[] keys = {"E1", "B", "G", "D", "A", "E2"};
+
 
     public GuitarInstrument(final CardLayout cl, final JPanel mainPanel) {
         // Call Abstract Instrument's constructor
@@ -21,24 +21,19 @@ public class GuitarInstrument extends AbstractInstrument {
         // Instantiate the instrument
         instrumentToPlay = new instruments.Guitar();
 
+        // Here we are limiting what is shown in the in the GUI
+        String[] keysAvailable = {"E1", "B", "G", "D", "A", "E2"};
+        setupNotesForThisInstrument(keysAvailable);
+
         // Add image to the image panel
         JLabel instrumentsLabel = new JLabel();
         instrumentsLabel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
         instrumentsLabel.setIcon(new ImageIcon("Resources/images/guitartitle.jpg"));
         titlePanel.add(instrumentsLabel);
 
-
-        // Create buttons for the guitar
-        for (int i = 0; i < keys.length; i++) {
-            final JButton key = new JButton(keys[i]);
-            key.setPreferredSize(new Dimension(75, 200));
-            key.setBackground(Color.WHITE);
-
-            // this is generic enough :)
-            setUpListenersForNoteForKeyAtIndex(i, key, keys[i]);
-
-            buttonPanel.add(key);
-        }
+        // Now we can add the pre-
+        // build notes to the instrument gui
+        addNotesToButtonPanel();
 
         // add components
         this.addComponents();
