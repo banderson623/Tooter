@@ -33,7 +33,7 @@ public class SplashScreen extends JPanel {
         // Panel for images
         imagePanel = new JPanel();
         imagePanel.setLayout(new BoxLayout(imagePanel, BoxLayout.Y_AXIS));
-        imagePanel.setSize(new Dimension(1000, 400));
+        imagePanel.setSize(new Dimension(1000, 200));
         imagePanel.setBackground(Color.WHITE);
 
         // Add image to the image panel
@@ -56,12 +56,12 @@ public class SplashScreen extends JPanel {
 
         // Panel for Buttons
         buttonPanel = new JPanel();
-        buttonPanel.setSize(new Dimension(1000, 200));
+        buttonPanel.setSize(new Dimension(500, 100));
         buttonPanel.setBackground(Color.WHITE);
 
         // Start a song button
         JButton startsongButton = new JButton();
-        startsongButton.setText("Start Song");
+        startsongButton.setText("Start and Host a Song");
         startsongButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
@@ -72,7 +72,7 @@ public class SplashScreen extends JPanel {
 
         // Play a song button
         JButton playsongButton = new JButton();
-        playsongButton.setText("Play Song");
+        playsongButton.setText("Play a Saved Song");
         playsongButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
@@ -83,6 +83,7 @@ public class SplashScreen extends JPanel {
 
         // Panel to join a song
         joinPanel = new JPanel();
+
         //joinPanel.setLayout();
         joinPanel.setSize(new Dimension(500, 200));
         joinPanel.setMaximumSize(new Dimension(500, 300));
