@@ -16,7 +16,7 @@ import java.io.IOException;
 
 public class SongController {
 
-    public static enum Status { INVALID_PASSWORD, ERROR, OK }
+    public static enum Status {INVALID_PASSWORD, ERROR, OK}
 
     public static final int HOST_PORT = 5050;
     public static final int DISCOVERY_PORT_INITIAL = 3030;
@@ -24,7 +24,7 @@ public class SongController {
     private SongDocument songDocument;
     private Piano piano = new Piano();
     private boolean isHost = true;
-    private Endpoint<Song> endpoint;
+    private Endpoint endpoint;
 
     private boolean hasBeenInitialized = false;
 
@@ -34,9 +34,9 @@ public class SongController {
 
     // This is encountered when we hit the back button,
     // same session and we don't need to initialize
-    public Status initializeOrUseExisting(String password){
+    public Status initializeOrUseExisting(String password) {
         Status status = Status.OK;
-        if(!hasBeenInitialized){
+        if (!hasBeenInitialized) {
             status = initialize(password);
         } else {
             // nothing?
@@ -49,7 +49,7 @@ public class SongController {
 
         // Brian added...
         // if the password is null, blank, empty then use default
-        if(password.length() == 0){
+        if (password.length() == 0) {
             password = "default"; // this just makes it easier for testing
         }
 
@@ -65,8 +65,9 @@ public class SongController {
             this.endpoint = new ZmqHostEndpoint<Song>(HOST_PORT, DISCOVERY_PORT_INITIAL,
                     new SongMessageHandlerFactory(), new SessionAuthenticator(password));
         } else {
-            this.endpoint = new ZmqEndpointFactory().buildClientEndpoint(Session.ipToConnectTo, DISCOVERY_PORT_INITIAL, password,
-                    Song.class, new SongMessageHandlerFactory());
+            this.endpoint = new ZmqEndpointFactory().buildClientEndpoint(Session.ipToConnectTo,
+                    DISCOVERY_PORT_INITIAL, password,
+                    new SongMessageHandlerFactory());
             if (this.endpoint == null) {
                 // The connection was refused
                 return Status.INVALID_PASSWORD;
@@ -83,7 +84,8 @@ public class SongController {
 
         if (isHost) {
             System.out.println("Hosting at " + NetworkUtils.getIpAddress() + ":" + HOST_PORT);
-            System.out.println("Accepting connections at " + NetworkUtils.getIpAddress() + ":" + DISCOVERY_PORT_INITIAL);
+            System.out.println("Accepting connections at " + NetworkUtils.getIpAddress() + ":" +
+                    DISCOVERY_PORT_INITIAL);
         } else {
             System.out.println("Connected to " + Session.ipToConnectTo + ":" + HOST_PORT);
         }

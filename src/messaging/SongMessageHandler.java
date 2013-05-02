@@ -5,9 +5,9 @@ import com.digitalxyncing.communication.Endpoint;
 import com.digitalxyncing.communication.MessageHandler;
 import com.digitalxyncing.document.Message;
 
-public class SongMessageHandler extends MessageHandler<Song> {
+public class SongMessageHandler extends MessageHandler {
 
-    public SongMessageHandler(Endpoint<Song> endpoint, byte[] message) {
+    public SongMessageHandler(Endpoint endpoint, byte[] message) {
         super(endpoint, message);
     }
 
