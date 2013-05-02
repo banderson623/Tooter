@@ -18,25 +18,30 @@ public class SongFragment extends DocumentFragment<Song> {
 
     public SongFragment(String fragmentString) {
         // TODO This is crude, but using it for testing purposes...
-        if (fragmentString.startsWith("piano")) {
+        if (fragmentString.startsWith("Resources/piano")) {
             Piano piano = new Piano();
-            String name = fragmentString.substring(fragmentString.indexOf("/") + 1, fragmentString.indexOf("."));
+            String name = fragmentString.substring(fragmentString.lastIndexOf("/") + 1, fragmentString.indexOf("."));
             this.note = piano.getNoteByName(name);
             this.data = note.getFileName().getBytes();
-        } else if (fragmentString.startsWith("drums")) {
+        } else if (fragmentString.startsWith("Resources/drums")) {
             Drums drums = new Drums();
-            String name = fragmentString.substring(fragmentString.indexOf("/") + 1, fragmentString.indexOf("."));
+            String name = fragmentString.substring(fragmentString.lastIndexOf("/") + 1, fragmentString.indexOf("."));
             this.note = drums.getNoteByName(name);
             this.data = note.getFileName().getBytes();
-        } else if (fragmentString.startsWith("guitar")) {
+        } else if (fragmentString.startsWith("Resources/guitar")) {
             Guitar guitar = new Guitar();
-            String name = fragmentString.substring(fragmentString.indexOf("/") + 1, fragmentString.indexOf("."));
+            String name = fragmentString.substring(fragmentString.lastIndexOf("/") + 1, fragmentString.indexOf("."));
             this.note = guitar.getNoteByName(name);
             this.data = note.getFileName().getBytes();
-        } else if (fragmentString.startsWith("gameboy")) {
+        } else if (fragmentString.startsWith("Resources/gameboy")) {
             Gameboy gameboy = new Gameboy();
-            String name = fragmentString.substring(fragmentString.indexOf("/") + 1, fragmentString.indexOf("."));
+            String name = fragmentString.substring(fragmentString.lastIndexOf("/") + 1, fragmentString.indexOf("."));
             this.note = gameboy.getNoteByName(name);
+            this.data = note.getFileName().getBytes();
+        } else if (fragmentString.startsWith("Resources/ship")) {
+            Kmart kmart = new Kmart();
+            String name = fragmentString.substring(fragmentString.lastIndexOf("/") + 1, fragmentString.indexOf("."));
+            this.note = kmart.getNoteByName(name);
             this.data = note.getFileName().getBytes();
         } else {
             System.out.println("Unrecognized note " + fragmentString);

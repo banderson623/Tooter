@@ -9,7 +9,7 @@ package instruments;
 public class DrumMachine extends InstrumentBase {
 
     public DrumMachine(){
-        addNotesFromWaveFilesInDirectory("roland_tr_77");
+        addNotesFromWaveFilesInDirectory("Resources/roland_tr_77");
     }
 
     @Override

@@ -8,7 +8,7 @@ package instruments;
  */
 public class Guitar extends InstrumentBase {
     public Guitar(){
-        addNotesFromWaveFilesInDirectory("guitar");
+        addNotesFromWaveFilesInDirectory("Resources/guitar");
     }
 
     @Override

@@ -57,7 +57,7 @@ public abstract class AbstractInstrument extends JPanel implements SessionListen
         this.mainPanel = mainPanel;
         this.thisInstrument =  this;
 
-        // Set default to piano
+        // Set default to Resources.piano
         instrumentToPlay = new instruments.Piano();
 
 

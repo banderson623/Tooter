@@ -27,7 +27,7 @@ public class DrumInstrument extends AbstractInstrument {
         // Add image to the image panel
         JLabel instrumentsLabel = new JLabel();
         instrumentsLabel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-        instrumentsLabel.setIcon(new ImageIcon("Resources/images/drumtitle.jpg"));
+        instrumentsLabel.setIcon(new ImageIcon("Resources/Resources.images/drumtitle.jpg"));
         titlePanel.add(instrumentsLabel);
 
 
@@ -40,6 +40,6 @@ public class DrumInstrument extends AbstractInstrument {
 
     @Override
     public String getInstrumentType() {
-        return "drums";
+        return "Resources/drums";
     }
 }

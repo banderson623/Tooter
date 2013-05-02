@@ -33,7 +33,7 @@ public class PlaySongScreen extends JPanel {
         // Add image to the image panel
         JLabel dxlogoLabel = new JLabel();
         dxlogoLabel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-        dxlogoLabel.setIcon(new ImageIcon("Resources/images/playsongtitle.jpg"));
+        dxlogoLabel.setIcon(new ImageIcon("Resources/Resources.images/playsongtitle.jpg"));
         titlePanel.add(dxlogoLabel);
 
         // Panel for choosing file
@@ -73,7 +73,7 @@ public class PlaySongScreen extends JPanel {
         playPanel.setBackground(Color.WHITE);
 
         // Play Button
-        JButton playButton = new JButton(new ImageIcon("Resources/images/play.jpg"));
+        JButton playButton = new JButton(new ImageIcon("Resources/Resources.images/play.jpg"));
         playButton.setBackground(Color.WHITE);
         playButton.setBorder(BorderFactory.createLineBorder(Color.WHITE));
         playButton.addActionListener(new ActionListener() {

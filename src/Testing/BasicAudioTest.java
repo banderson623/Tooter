@@ -1,8 +1,9 @@
 package Testing;
 
-import instruments.*;
+import instruments.Drums;
+import instruments.Instrument;
+import instruments.Piano;
 import messaging.Song;
-import util.LibraryUtils;
 
 import java.util.LinkedList;
 import java.util.Random;
@@ -15,19 +16,15 @@ import java.util.Random;
  */
 public class BasicAudioTest {
 
-    static {
-        LibraryUtils.setLibraryPath();
-    }
-
     public static void main(String[] args) throws InterruptedException, NoSuchFieldException, IllegalAccessException {
         System.out.println("Hello!");
         Instrument piano = new Piano();
         Song testSong = new Song();
         testSong.start();
 
-//        piano.play(piano.getSupportedNotes().get(0));
+//        Resources.piano.play(Resources.piano.getSupportedNotes().get(0));
 //        Thread.sleep(1000);
-//        piano.play(piano.getSupportedNotes().get(1));
+//        Resources.piano.play(Resources.piano.getSupportedNotes().get(1));
         LinkedList<Instrument.Note> orchesta = new LinkedList<Instrument.Note>();
 
 //        orchesta.addAll((new Gameboy()).getSupportedNotes());
@@ -40,7 +37,7 @@ public class BasicAudioTest {
 
 //        for(int i = 0; i < soundKit.getSupportedNotes().size(); i++) {
 //            Thread.sleep(500);
-//            piano.play(soundKit.getSupportedNotes().get(i));
+//            Resources.piano.play(soundKit.getSupportedNotes().get(i));
 //        }
 
         for(int i = 0; i < 10; i++) {

@@ -41,9 +41,9 @@ public class TooterProjectGUI {
         // Store Instrument Panels like this...
         instrumentPanels = new HashMap<String, AbstractInstrument>();
 
-        instrumentPanels.put("piano",  new PianoInstrument(cl, mainPanel));
-        instrumentPanels.put("drums",  new DrumInstrument(cl, mainPanel));
-        instrumentPanels.put("guitar", new GuitarInstrument(cl, mainPanel));
+        instrumentPanels.put("Resources/piano",  new PianoInstrument(cl, mainPanel));
+        instrumentPanels.put("Resources/drums",  new DrumInstrument(cl, mainPanel));
+        instrumentPanels.put("Resources/guitar", new GuitarInstrument(cl, mainPanel));
         instrumentPanels.put("8bit",   new EightBitInstrument(cl, mainPanel));
         instrumentPanels.put("kmart",  new ShipMyPantsInstrument(cl, mainPanel));
 

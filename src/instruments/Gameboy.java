@@ -9,7 +9,7 @@ package instruments;
 public class Gameboy extends InstrumentBase {
 
     public Gameboy(){
-        addNotesFromWaveFilesInDirectory("gameboy");
+        addNotesFromWaveFilesInDirectory("Resources/gameboy");
     }
 
 

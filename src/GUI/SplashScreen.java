@@ -21,7 +21,7 @@ public class SplashScreen extends JPanel {
     private JButton joinButton;
 
     static {
-        LibraryUtils.setLibraryPath();
+        LibraryUtils.loadEmbeddedLibrary();
     }
 
     public SplashScreen(final CardLayout cl, final JPanel mainPanel) {
@@ -30,7 +30,7 @@ public class SplashScreen extends JPanel {
         this.setSize(new Dimension(1000, 800));
         this.setBackground(Color.WHITE);
 
-        // Panel for images
+        // Panel for Resources.images
         imagePanel = new JPanel();
         imagePanel.setLayout(new BoxLayout(imagePanel, BoxLayout.Y_AXIS));
         imagePanel.setSize(new Dimension(1000, 200));
@@ -39,7 +39,7 @@ public class SplashScreen extends JPanel {
         // Add image to the image panel
         JLabel tooterlogoLabel = new JLabel();
         tooterlogoLabel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-        tooterlogoLabel.setIcon(new ImageIcon("Resources/images/tooterlogo.jpg"));
+        tooterlogoLabel.setIcon(new ImageIcon("Resources/Resources.images/tooterlogo.jpg"));
         imagePanel.add(tooterlogoLabel);
 
         // Panel for Buttons

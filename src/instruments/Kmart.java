@@ -5,7 +5,7 @@ package instruments;
  */
 public class Kmart extends InstrumentBase {
     public Kmart(){
-        addNotesFromWaveFilesInDirectory("ship");
+        addNotesFromWaveFilesInDirectory("Resources/ship");
     }
 
     @Override

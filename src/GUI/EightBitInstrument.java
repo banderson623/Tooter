@@ -24,7 +24,7 @@ public class EightBitInstrument extends AbstractInstrument {
         // Add image to the image panel
         JLabel instrumentsLabel = new JLabel();
         instrumentsLabel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-        instrumentsLabel.setIcon(new ImageIcon("Resources/images/8bittitle.jpg"));
+        instrumentsLabel.setIcon(new ImageIcon("Resources/Resources.images/8bittitle.jpg"));
         titlePanel.add(instrumentsLabel);
 
         // Now we can add the prebuild notes to the instrument gui

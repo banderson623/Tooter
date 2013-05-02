@@ -9,7 +9,7 @@ package instruments;
 public class Drums extends InstrumentBase {
 
     public Drums(){
-        addNotesFromWaveFilesInDirectory("drums");
+        addNotesFromWaveFilesInDirectory("Resources/drums");
     }
 
     @Override

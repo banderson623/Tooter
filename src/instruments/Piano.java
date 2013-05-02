@@ -9,7 +9,7 @@ package instruments;
 public class Piano extends InstrumentBase {
 
     public Piano(){
-        addNotesFromWaveFilesInDirectory("piano");
+        addNotesFromWaveFilesInDirectory("Resources/piano");
     }
 
     @Override

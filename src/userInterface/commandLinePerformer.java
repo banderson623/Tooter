@@ -3,7 +3,6 @@ package userInterface;
 import instruments.Instrument;
 import instruments.Piano;
 import messaging.Song;
-import util.LibraryUtils;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -15,18 +14,14 @@ import java.util.Map;
  */
 public class commandLinePerformer
 {
-    static
-    {
-        LibraryUtils.setLibraryPath();
-    }
 
     public static void main(String[] args)
     {
-        //Setup a piano
+        //Setup a Resources.piano
         Instrument piano = new Piano();
 
 //        Song myRecordedSong = new Song();
-//        myRecordedSong.intializeFromSerializedString("1367298182076*7136|piano/d.wav*7695|piano/e.wav*8271|piano/a.wav*9406|piano/c.wav*9990|piano/d.wav*11669|piano/a.wav");
+//        myRecordedSong.intializeFromSerializedString("1367298182076*7136|Resources.piano/d.wav*7695|Resources.piano/e.wav*8271|Resources.piano/a.wav*9406|Resources.piano/c.wav*9990|Resources.piano/d.wav*11669|Resources.piano/a.wav");
 //        myRecordedSong.play();
 //        return;
 

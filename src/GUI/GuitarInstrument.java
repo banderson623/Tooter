@@ -28,7 +28,7 @@ public class GuitarInstrument extends AbstractInstrument {
         // Add image to the image panel
         JLabel instrumentsLabel = new JLabel();
         instrumentsLabel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-        instrumentsLabel.setIcon(new ImageIcon("Resources/images/guitartitle.jpg"));
+        instrumentsLabel.setIcon(new ImageIcon("Resources/Resources.images/guitartitle.jpg"));
         titlePanel.add(instrumentsLabel);
 
         // Now we can add the pre-
@@ -41,7 +41,7 @@ public class GuitarInstrument extends AbstractInstrument {
 
     @Override
     public String getInstrumentType() {
-        return "guitar";
+        return "Resources/guitar";
     }
 
 

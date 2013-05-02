@@ -18,7 +18,7 @@ public class PianoInstrument extends AbstractInstrument {
          // Add image to the image panel
         JLabel instrumentsLabel = new JLabel();
         instrumentsLabel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-        instrumentsLabel.setIcon(new ImageIcon("Resources/images/pianotitle.jpg"));
+        instrumentsLabel.setIcon(new ImageIcon("Resources/Resources.images/pianotitle.jpg"));
         titlePanel.add(instrumentsLabel);
 
         // Now we can add the pre-build notes to the instrument gui
@@ -30,6 +30,6 @@ public class PianoInstrument extends AbstractInstrument {
 
     @Override
     public String getInstrumentType() {
-        return "piano";
+        return "Resources/piano";
     }
 }
