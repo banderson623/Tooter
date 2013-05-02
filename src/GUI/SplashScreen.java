@@ -129,7 +129,7 @@ public class SplashScreen extends JPanel {
 
     private void discoverSessions() {
         Sniffy sniffy = new ZmqSniffy();
-        sniffy.discoverXyncersOnPort(SongController.DISCOVERY_PORT, new Sniffy.HostListCallBack() {
+        sniffy.discoverXyncersOnPort(SongController.DISCOVERY_PORT_INITIAL, new Sniffy.HostListCallBack() {
             @Override
             public void results(java.util.List<String> listOfDiscoveredIPs) {
                 DefaultListModel<String> listModel = new DefaultListModel<String>();

@@ -20,7 +20,7 @@ public class SongController {
     public static enum Status { INVALID_PASSWORD, ERROR, OK }
 
     public static final int HOST_PORT = 5050;
-    public static final int DISCOVERY_PORT = 3030;
+    public static final int DISCOVERY_PORT_INITIAL = 3030;
 
     private SongDocument songDocument;
     private Piano piano = new Piano();
@@ -63,10 +63,10 @@ public class SongController {
             e.printStackTrace();
         }
         if (isHost) {
-            this.endpoint = new ZmqHostEndpoint<Song>(HOST_PORT, DISCOVERY_PORT,
+            this.endpoint = new ZmqHostEndpoint<Song>(HOST_PORT, DISCOVERY_PORT_INITIAL,
                     new SongMessageHandlerFactory(), new SessionAuthenticator(password));
         } else {
-            this.endpoint = new ZmqEndpointFactory().buildClientEndpoint(Session.ipToConnectTo, DISCOVERY_PORT, password,
+            this.endpoint = new ZmqEndpointFactory().buildClientEndpoint(Session.ipToConnectTo, DISCOVERY_PORT_INITIAL, password,
                     Song.class, new SongMessageHandlerFactory());
             if (this.endpoint == null) {
                 // The connection was refused
@@ -84,7 +84,7 @@ public class SongController {
 
         if (isHost) {
             System.out.println("Hosting at " + NetworkUtils.getIpAddress() + ":" + HOST_PORT);
-            System.out.println("Accepting connections at " + NetworkUtils.getIpAddress() + ":" + DISCOVERY_PORT);
+            System.out.println("Accepting connections at " + NetworkUtils.getIpAddress() + ":" + DISCOVERY_PORT_INITIAL);
         } else {
             System.out.println("Connected to " + Session.ipToConnectTo + ":" + HOST_PORT);
         }
