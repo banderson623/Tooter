@@ -2,6 +2,7 @@ package GUI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
 
 public class TooterProjectGUI {
     private JFrame mainFrame;
@@ -10,10 +11,14 @@ public class TooterProjectGUI {
     private JPanel splashPanel;
     private JPanel playPanel;
     private JPanel choosePanel;
+
     private JPanel pianoPanel;
     private JPanel drumPanel;
     private JPanel guitarPanel;
     private JPanel eightBitPanel;
+
+    // probably shouldn't be public...
+    public HashMap<String,AbstractInstrument> instrumentPanels;
 
     public TooterProjectGUI(){
         // Initialize main frames & panels
@@ -32,25 +37,25 @@ public class TooterProjectGUI {
         splashPanel = new SplashScreen(cl, mainPanel);
         playPanel = new PlaySongScreen(cl, mainPanel);
         choosePanel = new ChooseInstrument(cl, mainPanel);
-        pianoPanel = new PianoInstrument(cl, mainPanel);
-        drumPanel = new DrumInstrument(cl, mainPanel);
-        guitarPanel = new GuitarInstrument(cl, mainPanel);
-        eightBitPanel = new EightBitInstrument(cl, mainPanel);
 
-        Session.sessionListeners.add((SessionListener) pianoPanel);
-        Session.sessionListeners.add((SessionListener) guitarPanel);
-        Session.sessionListeners.add((SessionListener) drumPanel);
-        Session.sessionListeners.add((SessionListener) eightBitPanel);
+        // Store Instrument Panels like this...
+        instrumentPanels = new HashMap<String, AbstractInstrument>();
 
+        instrumentPanels.put("piano",  new PianoInstrument(cl, mainPanel));
+        instrumentPanels.put("drums",  new DrumInstrument(cl, mainPanel));
+        instrumentPanels.put("guitar", new GuitarInstrument(cl, mainPanel));
+        instrumentPanels.put("8bit",   new EightBitInstrument(cl, mainPanel));
+
+        for(String name : instrumentPanels.keySet()){
+            Session.sessionListeners.add((SessionListener) instrumentPanels.get(name));
+            instrumentPanels.get(name).setName(name);
+            mainPanel.add(instrumentPanels.get(name),name);
+        }
 
         // Add components to the main Panel
         mainPanel.add(splashPanel, "splash");
-        mainPanel.add(playPanel, "play");
+        mainPanel.add(playPanel,    "play");
         mainPanel.add(choosePanel, "choose");
-        mainPanel.add(pianoPanel, "piano");
-        mainPanel.add(guitarPanel, "guitar");
-        mainPanel.add(drumPanel, "drums");
-        mainPanel.add(eightBitPanel, "8bit");
 
         // Beginning page to show
         cl.show(mainPanel, "splash");

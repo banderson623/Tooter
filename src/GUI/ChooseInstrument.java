@@ -14,8 +14,9 @@ public class ChooseInstrument extends JPanel {
     private JPanel passwordPanel;
     private JPanel backPanel;
     final private JPasswordField passwordField;
-
     private String[] instrumentChoices = {"piano", "drums", "guitar", "8bit"};
+
+
 
     public ChooseInstrument(final CardLayout cl, final JPanel mainPanel) {
         // Set the size, color and layout of this panel
@@ -45,6 +46,8 @@ public class ChooseInstrument extends JPanel {
             comboBox.addItem(instrumentChoices[i]);
         choosePanel.add(comboBox);
 
+
+
         // Add Choose button
         JButton chooseButton = new JButton();
         chooseButton.setText("Play with this instrument");
@@ -70,7 +73,9 @@ public class ChooseInstrument extends JPanel {
                                 listener.onSessionJoin(Session.ipToConnectTo, SongController.HOST_PORT);
                             }
                         }
-                        cl.show(mainPanel, comboBox.getSelectedItem().toString());
+                        // Yikes!
+                        buildAndShowSelectedInstrument(cl,mainPanel,comboBox.getSelectedItem().toString());
+//                        cl.show(mainPanel, comboBox.getSelectedItem().toString());
                         break;
                     case INVALID_PASSWORD:
                         JOptionPane.showMessageDialog(mainPanel, "Incorrect password!");
@@ -110,7 +115,6 @@ public class ChooseInstrument extends JPanel {
                 Session.songController.terminate();
                 Session.songController.isHost(true);
                 cl.show(mainPanel, "splash");
-
             }
         });
         backPanel.add(backButton);
@@ -120,6 +124,23 @@ public class ChooseInstrument extends JPanel {
         this.add(choosePanel);
         this.add(passwordPanel);
         this.add(backPanel);
+    }
+
+    protected void buildAndShowSelectedInstrument(final CardLayout cl,
+                                                  final JPanel mainPanel,
+                                                  String instrumentName){
+
+//        Component[] comps = mainPanel.getComponents();
+//        for(int i = 0; i < comps.length; i++){
+//            if(comps[i].getName() != null){
+//                if(comps[i].getName().equals(instrumentName)){
+//                    comps[i].setEnabled(true);
+//                } else {
+//                    comps[i].setEnabled(false);
+//                }
+//            }
+//        }
+        cl.show(mainPanel, instrumentName);
     }
 
 }

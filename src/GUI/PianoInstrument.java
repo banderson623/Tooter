@@ -1,19 +1,9 @@
 package GUI;
 
-import messaging.Song;
-import messaging.SongFragment;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.*;
 
 public class PianoInstrument extends AbstractInstrument {
-
-
-    private instruments.Piano piano;
-
 
     private String[] keys = {"A", "B", "C", "D", "E", "F", "G"};
 
@@ -22,7 +12,7 @@ public class PianoInstrument extends AbstractInstrument {
         super(cl, mainPanel);
 
         // Instantiate the instrument
-        this.piano = new instruments.Piano();
+        instrumentToPlay = new instruments.Piano();
 
          // Add image to the image panel
         JLabel instrumentsLabel = new JLabel();
@@ -36,13 +26,10 @@ public class PianoInstrument extends AbstractInstrument {
             final JButton key = new JButton(keys[i]);
             key.setPreferredSize(new Dimension(75, 200));
             key.setBackground(Color.WHITE);
-            key.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent arg0) {
-                    SongFragment fragment = new SongFragment(piano.getNoteByName(key.getText()));
-                    Session.songController.play(fragment, true);
-                }
-            });
+
+            // this is generic enough :)
+            setUpListenersForNoteForKeyAtIndex(i, key, keys[i]);
+
             buttonPanel.add(key);
         }
 

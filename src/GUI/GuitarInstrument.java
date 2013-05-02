@@ -1,11 +1,7 @@
 package GUI;
 
-import messaging.SongFragment;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,10 +12,6 @@ import java.awt.event.ActionListener;
  */
 public class GuitarInstrument extends AbstractInstrument {
 
-
-    private instruments.Guitar guitar;
-
-
     private String[] keys = {"E1", "B", "G", "D", "A", "E2"};
 
     public GuitarInstrument(final CardLayout cl, final JPanel mainPanel) {
@@ -27,7 +19,7 @@ public class GuitarInstrument extends AbstractInstrument {
         super(cl, mainPanel);
 
         // Instantiate the instrument
-        this.guitar = new instruments.Guitar();
+        instrumentToPlay = new instruments.Guitar();
 
         // Add image to the image panel
         JLabel instrumentsLabel = new JLabel();
@@ -36,22 +28,24 @@ public class GuitarInstrument extends AbstractInstrument {
         titlePanel.add(instrumentsLabel);
 
 
-        // Create buttons for the piano
+        // Create buttons for the guitar
         for (int i = 0; i < keys.length; i++) {
             final JButton key = new JButton(keys[i]);
             key.setPreferredSize(new Dimension(75, 200));
             key.setBackground(Color.WHITE);
-            key.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent arg0) {
-                    SongFragment fragment = new SongFragment(guitar.getNoteByName(key.getText()));
-                    Session.songController.play(fragment, true);
-                }
-            });
+
+            // this is generic enough :)
+            setUpListenersForNoteForKeyAtIndex(i, key, keys[i]);
+
             buttonPanel.add(key);
         }
 
         // add components
         this.addComponents();
     }
+
+
+
+
+
 }

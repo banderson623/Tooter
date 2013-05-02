@@ -1,5 +1,8 @@
 package GUI;
 
+import instruments.Instrument;
+import messaging.SongFragment;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -19,12 +22,28 @@ public abstract class AbstractInstrument extends JPanel implements SessionListen
     protected JPanel ipPanel;
     protected JPanel backPanel;
     protected JLabel ipLabel;
+    protected char[] keyboardKeysToUse = {'a','s','d','f','g','h','j','k'};
+    protected Instrument instrumentToPlay;
+    final JPanel mainPanel;
+
+    // is the instrument playbable now?
+    protected boolean enabled;
+
 
     public AbstractInstrument(final CardLayout cl, final JPanel mainPanel){
         // Set the layout, size, and color of each instrument
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setSize(new Dimension(1000, 800));
         this.setBackground(Color.WHITE);
+
+        this.mainPanel = mainPanel;
+
+        // Set default to piano
+        instrumentToPlay = new instruments.Piano();
+
+        // remove keyboard events, from last instrument?
+        // I wish Java had a destructor....
+//        cleanUpKeyBindings();
 
         // Panel for the Title
         titlePanel = new JPanel();
@@ -70,6 +89,42 @@ public abstract class AbstractInstrument extends JPanel implements SessionListen
 
     }
 
+    protected void cleanUpKeyBindings(){
+        // Clean up keybindings!
+        mainPanel.getActionMap().clear();
+        mainPanel.getInputMap().clear();
+    }
+
+
+
+    protected void setUpListenersForNoteForKeyAtIndex(
+                                         int i,
+                                         final JButton key,
+                                         final String noteName)
+    {
+        // going to reuse this.. moved it out :)
+        AbstractAction buttonPressed = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                if(isVisible()){
+                    SongFragment fragment = new SongFragment(instrumentToPlay.getNoteByName(noteName));
+                    Session.songController.play(fragment, true);
+                }
+            }
+        };
+
+        key.addActionListener(buttonPressed);
+
+        // If we are less than the home row, then add a keyboard listening too
+        if(i < keyboardKeysToUse.length){
+            String keyboardKeyKey = "key_" + keyboardKeysToUse[i];
+            // Register this key down input, to trigger an action in the map...
+            mainPanel.getInputMap().put(KeyStroke.getKeyStroke(keyboardKeysToUse[i]),keyboardKeyKey);
+            // define the map's action here...
+            mainPanel.getActionMap().put(keyboardKeyKey,buttonPressed);
+        }
+    }
+
     public void addComponents(){
         // Add all of the components
         this.add(titlePanel);
@@ -87,5 +142,10 @@ public abstract class AbstractInstrument extends JPanel implements SessionListen
             }
         });
     }
+
+    public void setEnable(boolean isEnabled){
+        this.enabled = isEnabled;
+    }
+
 
 }

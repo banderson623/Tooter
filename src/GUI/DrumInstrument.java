@@ -1,11 +1,7 @@
 package GUI;
 
-import messaging.SongFragment;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,7 +13,6 @@ import java.awt.event.ActionListener;
 public class DrumInstrument extends AbstractInstrument {
 
 
-    private instruments.Drums drums;
 
 
     private String[] keys = {"Crash", "Hi-Tom", "Kick", "Low-Tom", "Snare"};
@@ -27,7 +22,7 @@ public class DrumInstrument extends AbstractInstrument {
         super(cl, mainPanel);
 
         // Instantiate the instrument
-        this.drums = new instruments.Drums();
+        this.instrumentToPlay = new instruments.Drums();
 
         // Add image to the image panel
         JLabel instrumentsLabel = new JLabel();
@@ -41,13 +36,9 @@ public class DrumInstrument extends AbstractInstrument {
             final JButton key = new JButton(keys[i]);
             key.setPreferredSize(new Dimension(75, 200));
             key.setBackground(Color.WHITE);
-            key.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent arg0) {
-                    SongFragment fragment = new SongFragment(drums.getNoteByName(key.getText()));
-                    Session.songController.play(fragment, true);
-                }
-            });
+
+            setUpListenersForNoteForKeyAtIndex(i, key, keys[i]);
+
             buttonPanel.add(key);
         }
 
