@@ -1,33 +1,38 @@
 package GUI;
 
-import messaging.Song;
 import messaging.SongFragment;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
 
-public class PianoInstrument extends AbstractInstrument {
+/**
+ * Created with IntelliJ IDEA.
+ * User: Tae Kim
+ * Date: 5/2/13
+ * Time: 12:21 AM
+ * To change this template use File | Settings | File Templates.
+ */
+public class DrumInstrument extends AbstractInstrument {
 
 
-    private instruments.Piano piano;
+    private instruments.DrumMachine drums;
 
 
-    private String[] keys = {"A", "B", "C", "D", "E", "F", "G"};
+    private String[] keys = {"Crash", "Hi-Tom", "Kick", "Low-Tom", "Snare"};
 
-    public PianoInstrument(final CardLayout cl, final JPanel mainPanel) {
+    public DrumInstrument(final CardLayout cl, final JPanel mainPanel) {
         // Call Abstract Instrument's constructor
         super(cl, mainPanel);
 
         // Instantiate the instrument
-        this.piano = new instruments.Piano();
+        this.drums = new instruments.DrumMachine();
 
-         // Add image to the image panel
+        // Add image to the image panel
         JLabel instrumentsLabel = new JLabel();
         instrumentsLabel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-        instrumentsLabel.setIcon(new ImageIcon("Resources/images/pianotitle.jpg"));
+        instrumentsLabel.setIcon(new ImageIcon("Resources/images/drumtitle.jpg"));
         titlePanel.add(instrumentsLabel);
 
 
@@ -39,7 +44,7 @@ public class PianoInstrument extends AbstractInstrument {
             key.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent arg0) {
-                    SongFragment fragment = new SongFragment(piano.getNoteByName(key.getText()));
+                    SongFragment fragment = new SongFragment(drums.getNoteByName(key.getText()));
                     Session.songController.play(fragment, true);
                 }
             });
