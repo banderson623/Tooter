@@ -7,3 +7,7 @@ bin/
 .idea/vcs.xml
 .idea/workspace.xml
 Resources/guitar/A.m4a
+
+/.idea/copyright/profiles_settings.xml
+/.idea/libraries/lib.xml
+/.idea/libraries/lib2.xml
