@@ -3,6 +3,7 @@ package GUI;
 import messaging.Song;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,6 +20,7 @@ public class PlaySongScreen extends JPanel {
     private JPanel playPanel;
     private JPanel backPanel;
 
+
     public PlaySongScreen(final CardLayout cl, final JPanel mainPanel) {
         // Set the size, color and layout of this panel
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -27,13 +29,13 @@ public class PlaySongScreen extends JPanel {
 
         // Panel for Title
         titlePanel = new JPanel();
-        titlePanel.setSize(new Dimension(1000, 500));
+        titlePanel.setSize(new Dimension(1000, 200));
         titlePanel.setBackground(Color.WHITE);
 
         // Add image to the image panel
         JLabel dxlogoLabel = new JLabel();
         dxlogoLabel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-        dxlogoLabel.setIcon(new ImageIcon("Resources/images/playsongtitle.jpg"));
+//        dxlogoLabel.setIcon(new ImageIcon("Resources/images/playsongtitle.jpg"));
         titlePanel.add(dxlogoLabel);
 
         // Panel for choosing file
@@ -57,6 +59,8 @@ public class PlaySongScreen extends JPanel {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 JFileChooser fc = new JFileChooser();
+                FileNameExtensionFilter songFilter = new FileNameExtensionFilter("Song File","song");
+                fc.setFileFilter(songFilter);
                 int rVal = fc.showOpenDialog(PlaySongScreen.this);
                 if (rVal == JFileChooser.APPROVE_OPTION) {
                     File selected = fc.getSelectedFile();
@@ -71,6 +75,9 @@ public class PlaySongScreen extends JPanel {
         playPanel = new JPanel();
         playPanel.setSize(new Dimension(1000, 200));
         playPanel.setBackground(Color.WHITE);
+
+        final VisualPlayBackPanel visualizer = new VisualPlayBackPanel(1000,50);
+
 
         // Play Button
         JButton playButton = new JButton(new ImageIcon("Resources/images/play.jpg"));
@@ -87,12 +94,14 @@ public class PlaySongScreen extends JPanel {
                     if (!file.exists() || !file.isFile()) {
                         filelocationTextField.setText("Song not found...");
                     } else {
-                        // Initialize and play the song
                         try {
+                            // Initialize and play the song
                             String contents = readFile(file);
                             Song song = new Song();
                             song.intializeFromSerializedString(contents);
                             song.play();
+                            visualizer.loadSong(song);
+                            visualizer.play();
                         } catch (IOException e1) {
                             e1.printStackTrace();
                         }
@@ -115,6 +124,7 @@ public class PlaySongScreen extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                visualizer.stop();
                 cl.show(mainPanel, "splash");
             }
         });
@@ -125,6 +135,8 @@ public class PlaySongScreen extends JPanel {
         this.add(choosePanel);
         this.add(playPanel);
         this.add(backPanel);
+        this.add(visualizer);
+
     }
 
     private String readFile(File file) throws IOException {

@@ -132,6 +132,8 @@ public class Song{
                 toot.setTime(Long.parseLong(noteStrings[0]));
                 for(int j=1;j<noteStrings.length;++j) {
                     final String noteString = noteStrings[j];
+                    final String name = noteString.substring((noteString.indexOf("/")+1), noteString.indexOf("."));
+
                     if(noteString.isEmpty()) {
                         continue;
                     }
@@ -146,7 +148,7 @@ public class Song{
                         @Override
                         public String name()
                         {
-                            return "noname";
+                            return name;
                         }
 
                         @Override
@@ -161,8 +163,12 @@ public class Song{
         }
     }
 
-    private void readObjectNoData() throws ObjectStreamException {
-
+    /**
+     * Returns a list of toots.
+     * @return
+     */
+    public List<Toot> getToots(){
+        return toots;
     }
 
     // Plays the song a separate thread.
