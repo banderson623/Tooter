@@ -127,17 +127,22 @@ public class ChooseInstrument extends JPanel {
         this.add(backPanel);
     }
 
-    // Responsibly shows the instrument to be played!
+    // Responsibly shows the instrument to be played
     protected void buildAndShowSelectedInstrument(final CardLayout cl,
                                                   final JPanel mainPanel,
                                                   String instrumentName){
 
+        // Get all the components in the main panel
         Component[] comps = mainPanel.getComponents();
         for(int i = 0; i < comps.length; i++){
+            // If we have set a name...
             if(comps[i].getName() != null){
+                // and the name is the same as the instrument name we are switching too
                 if(comps[i].getName().equals(instrumentName)){
+                    // and we can cast...
                     AbstractInstrument isInstrument = (AbstractInstrument) comps[i];
                     if(isInstrument != null){
+                        // ... then we better setup that instrument!
                         isInstrument.activateInstrument();
                     }
                 }

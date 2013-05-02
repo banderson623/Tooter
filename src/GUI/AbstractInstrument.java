@@ -131,13 +131,13 @@ public abstract class AbstractInstrument extends JPanel implements SessionListen
      * Set up any things that need to get setup when this instrument is activated
      */
     protected void activateInstrument(){
-        System.out.println("Setting up... " + this.instrumentToPlay.getName());
+
+        // Load up the keybindings for this instrument
         for(KeyStroke k : this.keyboardInputMap.allKeys()){
-            System.out.println("Mapping: " + k + " to: " + this.keyboardInputMap.get(k));
             getInputMap().put(k,this.keyboardInputMap.get(k));
         }
+        //Load up the action for those keyboard bindings
         for(Object keyForAction : this.keyboardActionMap.allKeys()){
-            System.out.println("Setting up action: " + keyForAction + " to: " + this.keyboardActionMap.get(keyForAction));
             getActionMap().put(keyForAction,this.keyboardActionMap.get(keyForAction));
         }
     }
@@ -206,7 +206,8 @@ public abstract class AbstractInstrument extends JPanel implements SessionListen
                 JLabel notePlayingLedLabel = new JLabel();
                 notePlayingLedLabel.setIcon(noteSilentLed);
 
-                // Build the button in special indicator :)
+                // Build the button and special indicator in a new panel
+                // The LED should light up when the action for the button is triggered
                 final JPanel noteAndIndicator = new JPanel();
                              noteAndIndicator.setBackground(Color.WHITE);
                              noteAndIndicator.setLayout(new GridBagLayout());
@@ -249,8 +250,11 @@ public abstract class AbstractInstrument extends JPanel implements SessionListen
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 SongFragment fragment = new SongFragment(instrumentToPlay.getNoteByName(noteName));
+                // Play the note
                 Session.songController.play(fragment, true);
+                // Set the indicator to on
                 ledIndicator.setIcon(notePlayingLed);
+                // After 150ms, then turn the indicator off
                 javax.swing.Timer returnButtonToOffState = new javax.swing.Timer(150, new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
                         ledIndicator.setIcon(noteSilentLed);
@@ -258,6 +262,7 @@ public abstract class AbstractInstrument extends JPanel implements SessionListen
                 });
                 // Only execute once
                 returnButtonToOffState.setRepeats(false);
+                // Go!
                 returnButtonToOffState.start();
             }
         };
@@ -271,8 +276,6 @@ public abstract class AbstractInstrument extends JPanel implements SessionListen
         if(i < keyboardKeysToUse.length){
             // This is the map from the key to the action
             String keyboardKeyKey = "key_"+ keyboardKeysToUse[i];
-            System.out.println("key: " + keyboardKeyKey);
-
             // NOTE: this is built now, but swapped out when the instrument panel is activated in
             // the call to activateInstrument();
             // -----------------------------------------------------------------------------------
