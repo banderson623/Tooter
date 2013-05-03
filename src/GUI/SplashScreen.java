@@ -11,6 +11,7 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 @SuppressWarnings("serial")
 public class SplashScreen extends JPanel {
@@ -129,7 +130,21 @@ public class SplashScreen extends JPanel {
 
     private void discoverSessions() {
         Sniffy sniffy = new ZmqSniffy();
-        sniffy.discoverXyncersOnPort(SongController.DISCOVERY_PORT_INITIAL, new Sniffy.HostListCallBack() {
+//        sniffy.discoverXyncersOnPort(SongController.DISCOVERY_PORT_INITIAL, new Sniffy.HostListCallBack() {
+//            @Override
+//            public void results(java.util.List<String> listOfDiscoveredIPs) {
+//            DefaultListModel<String> listModel = new DefaultListModel<String>();
+//            for (String ip : listOfDiscoveredIPs) {
+//                listModel.addElement(ip);
+//                ipList.setModel(listModel);
+//            }
+//            }
+//        });
+
+        final java.util.List<String> listOfIps = new ArrayList<String>();
+        listOfIps.add("10.26.4.1");
+        listOfIps.add("10.26.0.1");
+        sniffy.discoverXyncersOnMySubnetAndFromListOfIPsAndPort(listOfIps,SongController.DISCOVERY_PORT_INITIAL, new Sniffy.HostListCallBack() {
             @Override
             public void results(java.util.List<String> listOfDiscoveredIPs) {
                 DefaultListModel<String> listModel = new DefaultListModel<String>();
@@ -139,6 +154,7 @@ public class SplashScreen extends JPanel {
                 }
             }
         });
+
     }
 
 }
