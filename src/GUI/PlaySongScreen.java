@@ -111,6 +111,33 @@ public class PlaySongScreen extends JPanel {
         });
         playPanel.add(playButton);
 
+        // pause button
+        JButton pauseButton = new JButton(new ImageIcon("Resources/images/playbutton.png"));
+        pauseButton.setBackground(Color.WHITE);
+        pauseButton.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+        pauseButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO pause button action
+            }
+        });
+        playPanel.add(pauseButton);
+
+        // stop button
+        JButton stopButton = new JButton(new ImageIcon("Resources/images/stopbutton.png"));
+        stopButton.setBackground(Color.WHITE);
+        stopButton.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+        stopButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO stop button action
+            }
+        });
+        playPanel.add(stopButton);
+
+
         // Panel to hold the Back Button
         backPanel = new JPanel();
         backPanel.setSize(new Dimension(1000, 50));
