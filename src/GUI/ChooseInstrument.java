@@ -14,7 +14,7 @@ public class ChooseInstrument extends JPanel {
     private JPanel passwordPanel;
     private JPanel backPanel;
     final private JPasswordField passwordField;
-    private String[] instrumentChoices = {"piano", "drums", "guitar", "8bit", "kmart","daft"};
+    private String[] instrumentChoices = {"piano", "drums", "guitar", "8bit", "kmart","daft","DJ Hero"};
 
 
 

@@ -47,6 +47,7 @@ public class TooterProjectGUI {
         instrumentPanels.put("8bit",   new EightBitInstrument(cl, mainPanel));
         instrumentPanels.put("kmart",  new ShipMyPantsInstrument(cl, mainPanel));
         instrumentPanels.put("daft",   new DaftInstrument(cl, mainPanel));
+        instrumentPanels.put("DJ Hero",new ScratchInstrument(cl, mainPanel));
 
 
         for(String name : instrumentPanels.keySet()){
