@@ -121,8 +121,9 @@ public class PlaySongScreen extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 // TODO pause button action
                 if(song != null) {
-                    song.pause();
-                    visualizer.pause();
+                    if(song.pause()) {
+                        visualizer.pause();
+                    }
                 }
             }
         });
@@ -138,8 +139,9 @@ public class PlaySongScreen extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 // TODO stop button action
                 if(song != null) {
-                    song.stop();
-                    visualizer.stop();
+                    if(song.stop()) {
+                        visualizer.stop();
+                    }
                 }
             }
         });

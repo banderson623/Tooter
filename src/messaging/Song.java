@@ -74,14 +74,16 @@ public class Song{
         return playing != null;
     }
 
-    public void pause() {
+    public boolean pause() {
         if(playing != null) {
             playing.isPaused = true;
             playing.pausedTime = System.currentTimeMillis();
+            return true;
         }
+        return false;
     }
 
-    public void stop() {
+    public boolean stop() {
         if(playing != null) {
             playing.isStopped = true;
             synchronized (playing) {
@@ -90,7 +92,9 @@ public class Song{
             playing = null;
             Song.playerExecutor.shutdown();
             playerExecutor = Executors.newScheduledThreadPool(1);
+            return true;
         }
+        return false;
     }
 
     public synchronized String toString(){
