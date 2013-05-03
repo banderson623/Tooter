@@ -132,10 +132,11 @@ public class SplashScreen extends JPanel {
         });
         joinPanel.add(refreshButton);
 
+        imagePanel.add(joinPanel);
+
         // Add imagePanel to the Panel
         this.add(imagePanel);
         this.add(buttonPanel);
-        this.add(joinPanel);
 
 
     }
