@@ -1,10 +1,22 @@
 package instruments;
 
 /**
- * User: brian_anderson
- * Date: 5/2/13
- * <p/>
- * Add some readme here about how this operates
+DAFT PUNK!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  */
-public class Daft {
+
+/**
+ * My favorite instrument
+ */
+public class Daft extends InstrumentBase {
+
+    public Daft(){
+        addNotesFromWaveFilesInDirectory("daft");
+    }
+
+    @Override
+    public String getName()
+    {
+        return "Daft";
+    }
 }
+
