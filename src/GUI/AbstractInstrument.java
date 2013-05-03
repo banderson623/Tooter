@@ -1,6 +1,5 @@
 package GUI;
 
-import com.sun.deploy.panel.JavaPanel;
 import instruments.Instrument;
 import messaging.SongFragment;
 
@@ -8,8 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
-import java.util.Timer;
+import java.util.ArrayList;
 
 /**
  * Created with IntelliJ IDEA.
@@ -31,7 +29,7 @@ public abstract class AbstractInstrument extends JPanel implements SessionListen
     protected JPanel ipPanel;
     protected JPanel backPanel;
     protected JLabel ipLabel;
-    protected char[] keyboardKeysToUse = {'a','s','d','f','g','h','j','k'};
+    protected char[] keyboardKeysToUse = {'a','s','d','f','g','h','j','k','l',';','\''};
     protected Instrument instrumentToPlay;
     final JPanel mainPanel;
     // This holds the Instrument class type
