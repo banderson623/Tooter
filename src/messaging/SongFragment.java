@@ -16,6 +16,11 @@ public class SongFragment extends DocumentFragment<Song> {
         this.data = note.getFileName().getBytes();
     }
 
+
+    /**
+     * The serialized fragments
+     * @param fragmentString
+     */
     public SongFragment(String fragmentString) {
         // TODO This is crude, but using it for testing purposes...
         if (fragmentString.startsWith("piano")) {
@@ -37,6 +42,11 @@ public class SongFragment extends DocumentFragment<Song> {
             Gameboy gameboy = new Gameboy();
             String name = fragmentString.substring(fragmentString.indexOf("/") + 1, fragmentString.indexOf("."));
             this.note = gameboy.getNoteByName(name);
+            this.data = note.getFileName().getBytes();
+        } else if (fragmentString.startsWith("kmart")) {
+            Kmart kmart = new Kmart();
+            String name = fragmentString.substring(fragmentString.indexOf("/") + 1, fragmentString.indexOf("."));
+            this.note = kmart.getNoteByName(name);
             this.data = note.getFileName().getBytes();
         } else {
             System.out.println("Unrecognized note " + fragmentString);

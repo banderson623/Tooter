@@ -4,10 +4,9 @@ import instruments.Instrument;
 import messaging.Song;
 
 import javax.swing.*;
-import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.util.*;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -118,11 +117,15 @@ public class VisualPlayBackPanel extends JPanel
     }
 
 
+    /**
+     * This is the note/sprite that will move
+     * along the play head as the song plays...
+     */
     private class Sprite extends JPanel
     {
         private Long time;
         private int leftBound = 0;
-        private final int height = 10;
+        private final int height = 5;
         private int yOffset = 0;
 
 
@@ -154,7 +157,6 @@ public class VisualPlayBackPanel extends JPanel
             }
 
             setBackground(spriteColor);
-
 
             time = atTime;
             leftBound = (int)(time/VisualPlayBackPanel.timeScale);
