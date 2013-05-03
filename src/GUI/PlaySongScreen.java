@@ -20,6 +20,7 @@ public class PlaySongScreen extends JPanel {
     private JPanel playPanel;
     private JPanel backPanel;
 
+    private Song song = null;
 
     public PlaySongScreen(final CardLayout cl, final JPanel mainPanel) {
         // Set the size, color and layout of this panel
@@ -66,6 +67,15 @@ public class PlaySongScreen extends JPanel {
                     File selected = fc.getSelectedFile();
                     filelocationTextField.setText(selected.getPath());
                 }
+                try {
+                    File file = new File(filelocationTextField.getText());
+                    String contents = readFile(file);
+                    song = new Song();
+                    song.intializeFromSerializedString(contents);
+                }
+                catch(Exception e) {
+                    // read file failed.
+                }
             }
 
         });
@@ -87,24 +97,14 @@ public class PlaySongScreen extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (filelocationTextField.getText().length() == 0) {
+                if (song == null) {
                     filelocationTextField.setText("Please Choose a Song...");
                 } else {
-                    File file = new File(filelocationTextField.getText());
-                    if (!file.exists() || !file.isFile()) {
-                        filelocationTextField.setText("Song not found...");
-                    } else {
-                        try {
-                            // Initialize and play the song
-                            String contents = readFile(file);
-                            Song song = new Song();
-                            song.intializeFromSerializedString(contents);
-                            song.play();
-                            visualizer.loadSong(song);
-                            visualizer.play();
-                        } catch (IOException e1) {
-                            e1.printStackTrace();
-                        }
+                    if(!song.isPlaying()) {
+                        visualizer.loadSong(song);
+                    }
+                    if(song.play()) {
+                        visualizer.play();
                     }
                 }
             }
@@ -120,6 +120,10 @@ public class PlaySongScreen extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO pause button action
+                if(song != null) {
+                    song.pause();
+                    visualizer.stop();
+                }
             }
         });
         playPanel.add(pauseButton);
@@ -133,6 +137,10 @@ public class PlaySongScreen extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO stop button action
+                if(song != null) {
+                    song.stop();
+                    visualizer.stop();
+                }
             }
         });
         playPanel.add(stopButton);

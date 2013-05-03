@@ -46,7 +46,7 @@ public class Song{
 
      // Responsible for playing the song
     // uses the SongPlayer defined below
-    public void play(){
+    public boolean play(){
         List<Toot> myToots;
         synchronized(this) {
             // Copy this locally.
@@ -57,7 +57,39 @@ public class Song{
             playing = new SongPlayer(myToots);
             Song.playerExecutor.execute(playing);
         } else {
-            System.out.println("Oops, can't play the song. A song is already playing!");
+            if(playing.isPaused) {
+                synchronized (playing) {
+                    playing.notify();
+                }
+            }
+            else {
+                System.out.println("Oops, can't play the song. A song is already playing!");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isPlaying() {
+        return playing != null;
+    }
+
+    public void pause() {
+        if(playing != null) {
+            playing.isPaused = true;
+            playing.pausedTime = System.currentTimeMillis();
+        }
+    }
+
+    public void stop() {
+        if(playing != null) {
+            playing.isStopped = true;
+            synchronized (playing) {
+                playing.notify();
+            }
+            playing = null;
+            Song.playerExecutor.shutdown();
+            playerExecutor = Executors.newScheduledThreadPool(1);
         }
     }
 
@@ -176,6 +208,11 @@ public class Song{
         // List of all the notes to play at set time
         private List<Toot> toots;
 
+        private boolean isStopped = false;
+        private boolean isPaused = false;
+        private Long sleepTime = 0L;
+        private Long pausedTime = 0L;
+
         //Load up the toots in this song
         public SongPlayer(List<Toot> toots) {
             this.toots = toots;
@@ -191,8 +228,19 @@ public class Song{
                 {
                     // Look at the last note time verse next note time...
                     Long timeToSleep = toot.getTime() - lastTootTime;
+                    sleepTime = System.currentTimeMillis();
                     //        ... and sleep that long
                     Thread.sleep(timeToSleep);
+                    if(isPaused) {
+                        lastTootTime = pausedTime - sleepTime;
+                        synchronized (this) {
+                            wait();
+                        }
+                        isPaused = false;
+                    }
+                    if(isStopped) {
+                        break;
+                    }
                     // Remember the time I just played
                     lastTootTime = toot.getTime();
                     // Play the notes
