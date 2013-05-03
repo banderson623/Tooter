@@ -122,7 +122,7 @@ public class PlaySongScreen extends JPanel {
                 // TODO pause button action
                 if(song != null) {
                     song.pause();
-                    visualizer.stop();
+                    visualizer.pause();
                 }
             }
         });

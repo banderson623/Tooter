@@ -28,6 +28,7 @@ public class VisualPlayBackPanel extends JPanel
     private List<Sprite> visibleSprites;
     private List<Sprite> spritesToRemove;
     private long startPlaybackTime = 0L;
+    private long stoppedPlaybackTime = 0L;
 
     private long leftSideIsTime = 0L;
     public static int timeScale = 10; // (100 ms is 1 px)
@@ -100,6 +101,12 @@ public class VisualPlayBackPanel extends JPanel
 
     public void stop(){
         timer.stop();
+        stoppedPlaybackTime = 0L;
+    }
+
+    public void pause() {
+        timer.stop();
+        stoppedPlaybackTime = System.currentTimeMillis() - startPlaybackTime;
     }
 
     public void play(){
@@ -113,7 +120,7 @@ public class VisualPlayBackPanel extends JPanel
         });
         timer.setRepeats(true);
         timer.start();
-        startPlaybackTime = System.currentTimeMillis();
+        startPlaybackTime = System.currentTimeMillis() - stoppedPlaybackTime;
     }
 
 
