@@ -38,9 +38,21 @@ public class SplashScreen extends JPanel {
         imagePanel.setBackground(Color.WHITE);
 
         // Add image to the image panel
+        JLabel dxlogoLabel = new JLabel();
+        dxlogoLabel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+        dxlogoLabel.setIcon(new ImageIcon("Resources/images/DX.jpg"));
+        imagePanel.add(dxlogoLabel);
+
+        // Add presents label
+        JLabel presentsLabel = new JLabel();
+        presentsLabel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+        presentsLabel.setText("PRESENTS...");
+        imagePanel.add(presentsLabel);
+
+        // Add image to the image panel
         JLabel tooterlogoLabel = new JLabel();
         tooterlogoLabel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-        tooterlogoLabel.setIcon(new ImageIcon("Resources/images/tooterlogo.jpg"));
+        tooterlogoLabel.setIcon(new ImageIcon("Resources/images/tooterlogo.png"));
         imagePanel.add(tooterlogoLabel);
 
         // Panel for Buttons
