@@ -132,6 +132,8 @@ public abstract class AbstractInstrument extends JPanel implements SessionListen
      */
     protected void activateInstrument(){
 
+        resetKeyboardActions();
+
         // Load up the keybindings for this instrument
         for(KeyStroke k : this.keyboardInputMap.allKeys()){
             getInputMap().put(k,this.keyboardInputMap.get(k));
@@ -140,6 +142,8 @@ public abstract class AbstractInstrument extends JPanel implements SessionListen
         for(Object keyForAction : this.keyboardActionMap.allKeys()){
             getActionMap().put(keyForAction,this.keyboardActionMap.get(keyForAction));
         }
+        transferFocus();
+//        requestFocusInWindow();
     }
 
     /**
