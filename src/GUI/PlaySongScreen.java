@@ -90,7 +90,7 @@ public class PlaySongScreen extends JPanel {
 
 
         // Play Button
-        JButton playButton = new JButton(new ImageIcon("Resources/images/play.jpg"));
+        JButton playButton = new JButton(new ImageIcon("Resources/images/playbutton.png"));
         playButton.setBackground(Color.WHITE);
         playButton.setBorder(BorderFactory.createLineBorder(Color.WHITE));
         playButton.addActionListener(new ActionListener() {
@@ -112,7 +112,7 @@ public class PlaySongScreen extends JPanel {
         playPanel.add(playButton);
 
         // pause button
-        JButton pauseButton = new JButton(new ImageIcon("Resources/images/playbutton.png"));
+        JButton pauseButton = new JButton(new ImageIcon("Resources/images/pausebutton.png"));
         pauseButton.setBackground(Color.WHITE);
         pauseButton.setBorder(BorderFactory.createLineBorder(Color.WHITE));
         pauseButton.addActionListener(new ActionListener() {
