@@ -41,15 +41,15 @@ public class SongFragment extends DocumentFragment<Song> {
         }
 
         if (instrument == null && fragmentString.startsWith("daft")) {
-            Instrument daft = new Daft();
+            instrument  = new Daft();
         }
 
         if (instrument == null && fragmentString.startsWith("kmart")) {
-            Instrument kmart = new Kmart();
+            instrument = new Kmart();
         }
 
         if (instrument == null && fragmentString.startsWith("scratch")) {
-            Instrument scratch = new Scratch();
+            instrument = new Scratch();
         }
 
         if(instrument == null){
