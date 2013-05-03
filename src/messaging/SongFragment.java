@@ -48,6 +48,10 @@ public class SongFragment extends DocumentFragment<Song> {
             instrument = new Kmart();
         }
 
+        if (instrument == null && fragmentString.startsWith("ship")) {
+            instrument = new Kmart();
+        }
+
         if (instrument == null && fragmentString.startsWith("scratch")) {
             instrument = new Scratch();
         }
