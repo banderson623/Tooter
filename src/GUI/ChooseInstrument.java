@@ -2,7 +2,6 @@ package GUI;
 
 import controller.SongController;
 
-import javax.lang.model.element.Modifier;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,7 +14,7 @@ public class ChooseInstrument extends JPanel {
     private JPanel passwordPanel;
     private JPanel backPanel;
     final private JPasswordField passwordField;
-    private String[] instrumentChoices = {"piano", "drums", "guitar", "8bit", "kmart"};
+    private String[] instrumentChoices = {"piano", "drums", "guitar", "8bit", "kmart","daft"};
 
 
 

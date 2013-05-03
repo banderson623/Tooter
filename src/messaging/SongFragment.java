@@ -43,6 +43,11 @@ public class SongFragment extends DocumentFragment<Song> {
             String name = fragmentString.substring(fragmentString.indexOf("/") + 1, fragmentString.indexOf("."));
             this.note = gameboy.getNoteByName(name);
             this.data = note.getFileName().getBytes();
+        } else if (fragmentString.startsWith("daft")) {
+            Instrument daft = new Daft();
+            String name = fragmentString.substring(fragmentString.indexOf("/") + 1, fragmentString.indexOf("."));
+            this.note = daft.getNoteByName(name);
+            this.data = note.getFileName().getBytes();
         } else if (fragmentString.startsWith("kmart")) {
             Kmart kmart = new Kmart();
             String name = fragmentString.substring(fragmentString.indexOf("/") + 1, fragmentString.indexOf("."));

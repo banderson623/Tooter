@@ -33,7 +33,7 @@ public class SplashScreen extends JPanel {
         // Panel for images
         imagePanel = new JPanel();
         imagePanel.setLayout(new BoxLayout(imagePanel, BoxLayout.Y_AXIS));
-        imagePanel.setSize(new Dimension(1000, 200));
+        imagePanel.setSize(new Dimension(1000, 400));
         imagePanel.setBackground(Color.WHITE);
 
         // Add image to the image panel
